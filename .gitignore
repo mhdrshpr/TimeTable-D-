@@ -1,0 +1,30 @@
+# Environment Configuration
+.env
+.env.local
+.env.*.local
+
+# Logs and runtime errors
+error_log
+*.log
+
+# Server and System files
+.well-known/
+cgi-bin/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+
+# Temporary and backup files
+*.bak
+*.tmp
+*.swp
+*~

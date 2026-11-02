@@ -1,0 +1,23 @@
+# ==========================================
+# TimeTable (D+) Security & Web Server Rules
+# ==========================================
+
+# Prevent directory indexing
+Options -Indexes
+
+# Block sensitive files and hidden files
+<FilesMatch "^\.env|^\.git|\.gitignore|error_log|\.log$|\.sql$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# Charset
+AddDefaultCharset UTF-8

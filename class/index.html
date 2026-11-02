@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دروس پلاس</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --primary:#2563eb;
+    --bg:#f8fafc;
+    --border:#cbd5e1;
+    --row-h:55px;
+}
+
+body{
+    font-family:'Vazirmatn',sans-serif;
+    background:var(--bg);
+    margin:0;
+    display:flex;
+    flex-direction:column;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* ================= HEADER ================= */
+header{
+    background:white;
+    padding:10px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:2px solid #e2e8f0;
+}
+
+.btn{
+    padding:8px 18px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn-add{background:var(--primary);color:white;}
+.btn-print{background:#475569;color:white;margin-left:8px;}
+.btn-io{background:#0f766e;color:white;margin-left:8px;}
+
+/* ================= LAYOUT ================= */
+.main{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    flex:1;
+    overflow:hidden;
+}
+
+.sidebar{
+    background:white;
+    border-left:1px solid #e2e8f0;
+    padding:15px;
+    overflow-y:auto;
+}
+
+.course-card{
+    border:1px solid #eef2f6;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:12px;
+    position:relative;
+    background:#fff;
+    line-height:1.8;
+    font-size:.85rem;
+}
+
+.course-card b{
+    font-size:1rem;
+    color:#1e293b;
+    display:block;
+    margin-bottom:5px;
+}
+
+.del-btn{
+    position:absolute;
+    left:12px;
+    top:12px;
+    color:#cbd5e1;
+    cursor:pointer;
+}
+
+/* ================= GRID ================= */
+.grid-container{
+    padding:20px;
+    overflow:auto;
+    background:var(--bg);
+}
+
+.timetable{
+    display:grid;
+    grid-template-columns:70px repeat(7,1fr);
+    grid-template-rows:45px repeat(14,var(--row-h));
+    background:var(--border);
+    gap:1px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+}
+
+.cell{
+    background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.header-cell{
+    background:#f1f5f9;
+    font-weight:bold;
+    font-size:.9rem;
+    color:#334155;
+}
+
+.time-cell{
+    background:#f8fafc;
+    color:#94a3b8;
+    font-weight:bold;
+    font-size:.75rem;
+}
+
+.class-block{
+    position:absolute;
+    left:4px;
+    right:4px;
+    border-radius:8px;
+    color:white;
+    padding:6px;
+    text-align:center;
+    z-index:10;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:2px;
+    box-shadow:0 4px 6px rgba(0,0,0,.1);
+    overflow:hidden;
+}
+
+.class-block b{font-size:.95rem;}
+.class-block span{font-size:.75rem;opacity:.95;}
+.class-block .loc-bold{font-weight:bold;}
+
+/* ================= MODAL ================= */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.5);
+    z-index:1000;
+    justify-content:center;
+    align-items:center;
+    backdrop-filter:blur(3px);
+}
+
+.modal-content{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    width:400px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.modal-content h3{
+    grid-column:span 2;
+    margin:0;
+    color:var(--primary);
+}
+
+.modal-content input,
+.modal-content select{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-family:inherit;
+}
+
+.full{grid-column:span 2;}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2 style="margin:0;">
+<i class="fa-solid fa-graduation-cap" style="color:var(--primary)"></i>
+کلاس‌های ۴۰۴۲
+</h2>
+
+<div>
+<button class="btn btn-print" onclick="window.print()">
+<i class="fa-solid fa-print"></i> چاپ
+</button>
+
+<button class="btn btn-io" onclick="exportJSON()">
+<i class="fa-solid fa-download"></i> خروجی JSON
+</button>
+
+<button class="btn btn-io" onclick="document.getElementById('importFile').click()">
+<i class="fa-solid fa-upload"></i> ورود JSON
+</button>
+
+<input type="file" id="importFile" accept=".json" style="display:none">
+
+<button class="btn btn-add" id="btnOpenModal">
+<i class="fa-solid fa-plus"></i> افزودن کلاس
+</button>
+</div>
+</header>
+
+<div class="main">
+<aside class="sidebar">
+<h3 style="margin-top:0">جزئیات دروس</h3>
+<div id="courseList"></div>
+</aside>
+
+<div class="grid-container">
+<div class="timetable" id="timetable"></div>
+</div>
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>فرم اطلاعات</h3>
+<input type="hidden" id="editIdx" value="-1">
+<input type="text" id="name" placeholder="نام کلاس" class="full">
+<input type="text" id="prof" placeholder="نام استاد">
+<input type="text" id="loc" placeholder="مکان">
+<input type="text" id="code" placeholder="کد درس">
+<input type="text" id="pre" placeholder="کد ارائه">
+<select id="day" class="full">
+<option value="1">شنبه</option>
+<option value="2">یکشنبه</option>
+<option value="3">دوشنبه</option>
+<option value="4">سه‌شنبه</option>
+<option value="5">چهارشنبه</option>
+<option value="6">پنج‌شنبه</option>
+<option value="7">جمعه</option>
+</select>
+<input type="time" id="sTime" value="08:00">
+<input type="time" id="eTime" value="10:00">
+<button class="btn btn-add full" id="btnSave">ذخیره کلاس</button>
+<button class="btn full" style="background:#eee" id="btnClose">انصراف</button>
+</div>
+</div>
+
+<script>
+let courses = JSON.parse(localStorage.getItem('uni_final_v3')) || [];
+const colors=['#2563eb','#059669','#dc2626','#d97706','#7c3aed','#0891b2','#db2777','#475569'];
+const timetable=document.getElementById('timetable');
+const modal=document.getElementById('modal');
+
+/* ================= RENDER ================= */
+function render(){
+localStorage.setItem('uni_final_v3',JSON.stringify(courses));
+timetable.innerHTML='';
+
+const days=['شنبه','یکشنبه','دوشنبه','سه‌شنبه','چهارشنبه','پنج‌شنبه','جمعه'];
+
+timetable.appendChild(createCell('ساعت','header-cell'));
+days.forEach(d=>timetable.appendChild(createCell(d,'header-cell')));
+
+for(let h=7;h<=20;h++){
+timetable.appendChild(createCell(`${h}:00`,'time-cell'));
+for(let d=1;d<=7;d++){
+const c=createCell('','');
+c.id=`d-${d}-h-${h}`;
+timetable.appendChild(c);
+}
+}
+
+const list=document.getElementById('courseList');
+list.innerHTML='';
+
+courses.forEach((c,i)=>{
+const card=document.createElement('div');
+card.className='course-card';
+card.style.borderRight=`6px solid ${c.color}`;
+card.innerHTML=`
+<i class="fa-solid fa-trash-can del-btn" onclick="deleteItem(${i})"></i>
+<div onclick="editItem(${i})" style="cursor:pointer">
+<b>${c.name}</b>
+<div>استاد: ${c.prof}</div>
+<div>کد درس: ${c.code}</div>
+<div>کد ارائه: ${c.pre}</div>
+<div>مکان: ${c.loc}</div>
+<div>ساعت: ${c.sTime} تا ${c.eTime}</div>
+</div>`;
+list.appendChild(card);
+
+const [sh,sm]=c.sTime.split(':').map(Number);
+const [eh,em]=c.eTime.split(':').map(Number);
+const duration=(eh*60+em)-(sh*60+sm);
+
+if(sh>=7&&sh<=20){
+const parent=document.getElementById(`d-${c.day}-h-${sh}`);
+if(parent){
+const block=document.createElement('div');
+block.className='class-block';
+block.style.backgroundColor=c.color;
+block.style.top=`${(sm/60)*55}px`;
+block.style.height=`${(duration/60)*55-4}px`;
+block.innerHTML=`
+<b>${c.name}</b>
+<span>${c.prof}</span>
+<span class="loc-bold">${c.loc}</span>
+<span>${c.sTime}-${c.eTime}</span>`;
+block.onclick=()=>editItem(i);
+parent.appendChild(block);
+}
+}
+});
+}
+
+function createCell(text,cls){
+const d=document.createElement('div');
+d.className=`cell ${cls}`;
+d.innerText=text;
+return d;
+}
+
+/* ================= CRUD ================= */
+document.getElementById('btnOpenModal').onclick=()=>{
+document.getElementById('editIdx').value=-1;
+document.querySelectorAll('.modal-content input').forEach(i=>{
+if(i.type!=='time'&&i.type!=='hidden')i.value='';
+});
+modal.style.display='flex';
+};
+
+document.getElementById('btnClose').onclick=()=>modal.style.display='none';
+
+document.getElementById('btnSave').onclick=()=>{
+const name=document.getElementById('name').value.trim();
+if(!name)return alert("نام کلاس الزامی است");
+
+const idx=parseInt(document.getElementById('editIdx').value);
+
+const data={
+name,
+prof:document.getElementById('prof').value||'-',
+loc:document.getElementById('loc').value||'-',
+code:document.getElementById('code').value||'-',
+pre:document.getElementById('pre').value||'-',
+day:document.getElementById('day').value,
+sTime:document.getElementById('sTime').value,
+eTime:document.getElementById('eTime').value,
+color:idx>-1?courses[idx].color:colors[courses.length%colors.length]
+};
+
+if(idx>-1)courses[idx]=data;
+else courses.push(data);
+
+modal.style.display='none';
+render();
+};
+
+window.deleteItem=(i)=>{
+if(confirm("حذف شود؟")){
+courses.splice(i,1);
+render();
+}
+};
+
+window.editItem=(i)=>{
+const c=courses[i];
+document.getElementById('editIdx').value=i;
+document.getElementById('name').value=c.name;
+document.getElementById('prof').value=c.prof;
+document.getElementById('loc').value=c.loc;
+document.getElementById('code').value=c.code;
+document.getElementById('pre').value=c.pre;
+document.getElementById('day').value=c.day;
+document.getElementById('sTime').value=c.sTime;
+document.getElementById('eTime').value=c.eTime;
+modal.style.display='flex';
+};
+
+/* ================= EXPORT ================= */
+function exportJSON(){
+const dataStr=JSON.stringify(courses,null,2);
+const blob=new Blob([dataStr],{type:"application/json"});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;
+a.download="doroos-plus-backup.json";
+a.click();
+URL.revokeObjectURL(url);
+}
+
+/* ================= IMPORT ================= */
+document.getElementById('importFile').addEventListener('change',function(e){
+const file=e.target.files[0];
+if(!file)return;
+
+const reader=new FileReader();
+reader.onload=function(evt){
+try{
+const imported=JSON.parse(evt.target.result);
+if(!Array.isArray(imported))throw "invalid";
+
+if(confirm("اطلاعات فعلی جایگزین شود؟")){
+courses=imported;
+render();
+alert("اطلاعات با موفقیت وارد شد ✅");
+}
+}catch{
+alert("فایل JSON معتبر نیست ❌");
+}
+};
+reader.readAsText(file);
+});
+
+render();
+</script>
+
+</body>
+</html>
