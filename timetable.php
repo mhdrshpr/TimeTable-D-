@@ -20,8 +20,19 @@ $csrf_token = get_csrf_token();
 <style>
 :root{
     --primary:#2563eb;
+    --primary-hover:#1d4ed8;
     --bg:#f8fafc;
+    --card-bg:#ffffff;
+    --header-bg:#ffffff;
+    --sidebar-bg:#ffffff;
+    --text-main:#0f172a;
+    --text-muted:#64748b;
     --border:#cbd5e1;
+    --cell-bg:#ffffff;
+    --time-cell-bg:#f8fafc;
+    --header-cell-bg:#f1f5f9;
+    --modal-bg:#ffffff;
+    --input-bg:#f8fafc;
     --row-h:55px;
 
     --cat-uni:#2563eb;
@@ -33,6 +44,24 @@ $csrf_token = get_csrf_token();
     --cat-movie:#750000;
     --cat-work:#7c3aed;
 }
+
+body.dark-theme {
+    --primary:#3b82f6;
+    --primary-hover:#60a5fa;
+    --bg:#0f172a;
+    --card-bg:#1e293b;
+    --header-bg:#1e293b;
+    --sidebar-bg:#1e293b;
+    --text-main:#f8fafc;
+    --text-muted:#94a3b8;
+    --border:#334155;
+    --cell-bg:#1e293b;
+    --time-cell-bg:#0b1120;
+    --header-cell-bg:#0b1120;
+    --modal-bg:#1e293b;
+    --input-bg:#0f172a;
+}
+
 
 @font-face {
     font-family: 'IRANSansX';
@@ -54,14 +83,22 @@ $csrf_token = get_csrf_token();
     box-sizing: border-box;
 }
 
+html {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
 body{
     font-family:'IRANSansX',sans-serif;
     background:var(--bg);
+    color:var(--text-main);
     margin:0;
     display:flex;
     flex-direction:column;
     height:100vh;
-    overflow:hidden;
+    overflow-x:hidden;
+    max-width: 100vw;
+    transition: background 0.25s, color 0.25s;
 }
 
 .ss01 {
@@ -103,10 +140,15 @@ body{
 
 /* HEADER */
 header{
-    background:white;
-    border-bottom:2px solid #e2e8f0;
+    background:var(--header-bg);
+    border-bottom:1px solid var(--border);
     z-index: 100;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    transition: background 0.25s, border-color 0.25s;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 .header-row {
@@ -118,13 +160,13 @@ header{
 }
 
 .header-row-1 {
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border);
 }
 
 .header-row-2 {
     padding-top: 8px;
     padding-bottom: 8px;
-    background: #fafbfc;
+    background: var(--header-bg);
 }
 
 .header-right,
@@ -143,10 +185,10 @@ header{
 .header-center h2 {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     margin: 0;
     font-size: 1.3rem;
-    color: #1e293b;
+    color: var(--text-main);
     white-space: nowrap;
 }
 
@@ -154,12 +196,13 @@ header{
     display: flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
-    padding: 8px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
     border-radius: 10px;
     font-weight: bold;
-    color: #1e40af;
-    font-size: 0.95rem;
+    color: var(--primary);
+    font-size: 0.9rem;
     white-space: nowrap;
 }
 
@@ -181,7 +224,7 @@ header{
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     font-size: 0.85rem;
     white-space: nowrap;
 }
@@ -193,6 +236,17 @@ header{
 
 .btn:active {
     transform: translateY(0);
+}
+
+.btn-theme, .btn-lang {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 7px 12px;
+}
+
+.btn-theme:hover, .btn-lang:hover {
+    background: var(--bg);
 }
 
 .btn-logout{
@@ -210,7 +264,7 @@ header{
 .btn-print{
     background: rgba(71,85,105,0.1); 
     border: 1px solid rgba(71,85,105,0.2); 
-    color: #475569;
+    color: var(--text-muted);
 }
 
 .btn-io{
@@ -241,27 +295,35 @@ header{
 .btn-schedule {
     background: rgba(139, 92, 246, 0.1);
     border: 1px solid rgba(139, 92, 246, 0.2);
-    color: #7c3aed;
+    color: #8b5cf6;
     padding: 6px 10px;
     font-size: 0.8rem;
+}
+
+.btn-mobile-schedules {
+    display: none;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.25);
+    color: var(--primary);
 }
 
 .schedule-selector {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: white;
+    background: var(--card-bg);
     padding: 5px 8px;
     border-radius: 10px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
 }
 
 .schedule-selector select {
     padding: 6px 12px;
     border-radius: 6px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
     font-family: inherit;
-    background: #f8fafc;
+    background: var(--input-bg);
+    color: var(--text-main);
     min-width: 160px;
     font-size: 0.85rem;
     cursor: pointer;
@@ -281,13 +343,18 @@ header{
 }
 
 .sidebar{
-    background:white;
-    border-left:1px solid #e2e8f0;
+    background:var(--sidebar-bg);
+    border-left:1px solid var(--border);
     padding:15px;
     overflow-y:auto;
     transition:.3s;
     display: flex;
     flex-direction: column;
+}
+
+html[dir="ltr"] .sidebar {
+    border-left: none;
+    border-right: 1px solid var(--border);
 }
 
 .sidebar.hidden{
@@ -301,19 +368,20 @@ header{
 
 .sidebar-section h3 {
     margin: 0 0 10px 0;
-    font-size: 1rem;
-    color: #1e293b;
+    font-size: 0.95rem;
+    color: var(--text-main);
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
 }
 
 .course-card{
-    border:1px solid #eef2f6;
+    border:1px solid var(--border);
     padding:12px;
     border-radius:10px;
     margin-bottom:10px;
-    background:#fff;
+    background:var(--card-bg);
+    color:var(--text-main);
     font-size:.85rem;
     cursor:pointer;
     position: relative;
@@ -337,6 +405,11 @@ header{
     z-index: 5;
 }
 
+html[dir="ltr"] .delete-btn {
+    left: auto;
+    right: 8px;
+}
+
 .delete-btn:hover { 
     transform: scale(1.2); 
 }
@@ -347,7 +420,7 @@ header{
     gap: 5px;
     margin: 4px 0;
     font-size: 0.8rem;
-    color: #64748b;
+    color: var(--text-muted);
 }
 
 /* STATS */
@@ -359,23 +432,23 @@ header{
 }
 
 .stat-item {
-    background: #f8fafc;
+    background: var(--card-bg);
     padding: 10px;
     border-radius: 8px;
     text-align: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
 }
 
 .stat-label {
     font-size: 0.7rem;
-    color: #64748b;
+    color: var(--text-muted);
     margin-bottom: 4px;
 }
 
 .stat-value {
     font-weight: bold;
     font-size: 0.9rem;
-    color: #1e293b;
+    color: var(--text-main);
 }
 
 .stat-dot {
@@ -386,28 +459,41 @@ header{
     margin-left: 5px;
 }
 
+html[dir="ltr"] .stat-dot {
+    margin-left: 0;
+    margin-right: 5px;
+}
+
 /* GRID */
 .grid-container{
-    padding:20px;
-    overflow:auto;
-    background:var(--bg);
+    padding: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg);
     position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .timetable{
-    display:grid;
-    grid-template-columns:80px repeat(7,1fr);
-    grid-template-rows:45px repeat(19,var(--row-h));
-    background:var(--border);
-    gap:1px;
-    border:1px solid var(--border);
-    border-radius:8px;
-    overflow:hidden;
-    min-width: 800px;
+    display: grid;
+    grid-template-columns: 80px repeat(7, minmax(125px, 1fr));
+    grid-template-rows: 45px repeat(19, var(--row-h));
+    background: var(--border);
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 965px; /* 80px + 7*125px (875px) + 7*1px gaps + 2px borders = 964px */
+    width: 100%;
+    transition: filter 0.25s ease;
 }
 
 .cell{
-    background:white;
+    background:var(--cell-bg);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -416,19 +502,21 @@ header{
 }
 
 .cell.drag-hover {
-    background: #dbeafe !important;
-    box-shadow: inset 0 0 0 3px #3b82f6 !important;
+    background: rgba(37, 99, 235, 0.2) !important;
+    box-shadow: inset 0 0 0 3px var(--primary) !important;
     z-index: 50;
 }
 
 .header-cell{
-    background:#f1f5f9;
+    background:var(--header-cell-bg);
+    color:var(--text-main);
     font-weight:bold;
     font-size: 0.85rem;
 }
 
 .time-cell{
-    background:#f8fafc;
+    background:var(--time-cell-bg);
+    color:var(--text-muted);
     font-weight:bold;
     font-size:.8rem;
 }
@@ -925,90 +1013,159 @@ header{
     transform: translateX(-20px);
 }
 
-/* STEP 2: FLEXIBLE ITEMS */
+/* STEP 2: FLEXIBLE ITEMS (RESPONSIVE PRO) */
 .flex-items-container {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 14px;
+    margin-bottom: 14px;
 }
 
 .flex-card {
-    background: #ffffff;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 14px;
-    padding: 14px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    background: var(--card-bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.03);
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    transition: all 0.2s ease;
 }
 
-.flex-card-row {
+.flex-card:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 4px 16px rgba(37, 99, 235, 0.12);
+}
+
+.flex-header-row {
     display: flex;
     gap: 10px;
     align-items: center;
+    width: 100%;
 }
 
 .flex-name-input {
-    flex: 2;
-    padding: 8px 12px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    flex: 1;
+    min-width: 0;
+    padding: 9px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    background: var(--input-bg);
+    color: var(--text-main);
+    transition: border-color 0.2s;
+}
+
+.flex-name-input:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.flex-btn-delete {
+    background: #fee2e2;
+    border: none;
+    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.flex-btn-delete:hover {
+    background: #fca5a5;
+}
+
+.flex-controls-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+}
+
+@media (max-width: 720px) {
+    .flex-controls-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .flex-controls-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .flex-select {
+    width: 100%;
     padding: 8px 10px;
-    border: 1px solid #cbd5e1;
-    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
     font-family: inherit;
-    font-size: 0.85rem;
-    background: #f8fafc;
+    font-size: 0.83rem;
+    background: var(--card-bg);
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.flex-duration-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    background: var(--bg);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+}
+
+.flex-duration-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.flex-duration-input {
+    width: 65px;
+    padding: 5px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    background: var(--card-bg);
+    color: var(--text-main);
+    text-align: center;
 }
 
 .duration-chips {
     display: flex;
     gap: 6px;
-    align-items: center;
     flex-wrap: wrap;
 }
 
 .duration-chip {
-    padding: 4px 8px;
+    padding: 4px 9px;
     border-radius: 6px;
-    font-size: 0.75rem;
-    border: 1px solid #cbd5e1;
-    background: #f8fafc;
+    font-size: 0.74rem;
+    border: 1px solid var(--border);
+    background: var(--card-bg);
+    color: var(--text-main);
     cursor: pointer;
     font-family: inherit;
+    font-weight: 600;
+    transition: all 0.15s;
 }
 
 .duration-chip.selected {
-    background: #dbeafe;
-    border-color: #3b82f6;
-    color: #1d4ed8;
-    font-weight: bold;
-}
-
-.btn-card-delete {
-    background: #fee2e2;
-    color: #ef4444;
-    border: none;
-    border-radius: 8px;
-    padding: 7px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-}
-
-.btn-card-delete:hover {
-    background: #fca5a5;
-    color: #b91c1c;
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #ffffff;
 }
 
 /* STEP 3: STRATEGIES & CONSTRAINTS */
@@ -1019,31 +1176,37 @@ header{
     margin-bottom: 20px;
 }
 
+@media (max-width: 600px) {
+    .strategy-picker {
+        grid-template-columns: 1fr;
+    }
+}
+
 .strategy-option {
-    border: 2px solid #e2e8f0;
-    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
     padding: 12px 14px;
     cursor: pointer;
-    background: #ffffff;
+    background: var(--card-bg);
+    color: var(--text-main);
     transition: all 0.2s;
     text-align: right;
 }
 
 .strategy-option:hover {
     border-color: #93c5fd;
-    background: #f8fafc;
 }
 
 .strategy-option.selected {
     border-color: var(--primary);
-    background: #eff6ff;
+    background: rgba(37, 99, 235, 0.08);
     box-shadow: 0 0 0 1px var(--primary);
 }
 
 .strategy-option-title {
     font-weight: 700;
     font-size: 0.9rem;
-    color: #1e293b;
+    color: var(--text-main);
     margin-bottom: 4px;
     display: flex;
     align-items: center;
@@ -1052,7 +1215,7 @@ header{
 
 .strategy-option-desc {
     font-size: 0.76rem;
-    color: #64748b;
+    color: var(--text-muted);
     line-height: 1.4;
 }
 
@@ -1060,10 +1223,16 @@ header{
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    background: #f8fafc;
+    background: var(--bg);
     padding: 16px;
     border-radius: 14px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border);
+}
+
+@media (max-width: 600px) {
+    .rules-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .rule-field {
@@ -1075,113 +1244,252 @@ header{
 .rule-field label {
     font-size: 0.8rem;
     font-weight: 600;
-    color: #334155;
+    color: var(--text-main);
 }
 
 .rule-field input, .rule-field select {
     padding: 8px 10px;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--border);
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.85rem;
-    background: #ffffff;
+    background: var(--card-bg);
+    color: var(--text-main);
 }
 
-/* STEP 4: PREVIEW & RESULTS */
-.score-dashboard {
+/* STEP 4: PREVIEW & RESULTS (REDESIGNED ROW CARDS) */
+.score-dashboard-pro {
+    background: linear-gradient(135deg, #059669 0%, #0d9488 50%, #2563eb 100%);
+    border-radius: 18px;
+    padding: 18px 22px;
+    color: #ffffff;
     display: flex;
     align-items: center;
-    gap: 18px;
-    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
-    border: 1.5px solid #a7f3d0;
-    padding: 16px 20px;
-    border-radius: 16px;
-    margin-bottom: 16px;
+    gap: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 25px rgba(13, 148, 136, 0.25);
 }
 
-.score-circle {
-    width: 60px;
-    height: 60px;
+@media (max-width: 600px) {
+    .score-dashboard-pro {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 16px;
+    }
+}
+
+.score-badge-circle {
+    width: 66px;
+    height: 66px;
     border-radius: 50%;
-    background: #059669;
-    color: #ffffff;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    border: 2.5px solid #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     font-weight: 800;
-    font-size: 1.15rem;
-    box-shadow: 0 4px 10px rgba(5, 150, 105, 0.3);
+    font-size: 1.25rem;
     flex-shrink: 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
-.score-circle small {
-    font-size: 0.55rem;
-    font-weight: normal;
+.score-badge-circle small {
+    font-size: 0.62rem;
+    font-weight: 600;
+    opacity: 0.9;
 }
 
-.score-details {
+.score-pro-meta {
     flex: 1;
 }
 
-.score-details-title {
+.score-pro-title {
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #065f46;
-    font-size: 0.95rem;
-    margin-bottom: 4px;
-}
-
-.score-chips {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    font-size: 0.78rem;
-    color: #047857;
-}
-
-.score-chip {
-    background: #ffffff;
-    padding: 3px 8px;
-    border-radius: 6px;
-    border: 1px solid #6ee7b7;
-}
-
-.suggested-card {
-    background: #ffffff;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 12px 14px;
     margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+.score-pro-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.score-pro-chip {
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.suggestions-list-pro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.suggested-row-card {
+    position: relative;
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-width: 1.5px;
+    border-style: solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+}
+
+.suggested-row-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.07);
+}
+
+.suggested-card-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-right-width: 5px;
-    transition: all 0.2s;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.suggested-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.suggested-card-badges {
+.suggested-title-group {
     display: flex;
-    gap: 6px;
     align-items: center;
-    margin-top: 5px;
-    font-size: 0.75rem;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.badge-tag {
-    padding: 2px 7px;
-    border-radius: 6px;
+.suggested-cat-pill {
     font-size: 0.72rem;
-    background: #f1f5f9;
-    color: #475569;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
-.badge-tag-success {
+.suggested-activity-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.suggested-ready-badge {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #059669;
     background: #dcfce7;
-    color: #15803d;
+    border: 1px solid #86efac;
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+body.dark-theme .suggested-ready-badge {
+    background: rgba(5, 150, 105, 0.25);
+    border-color: #059669;
+    color: #6ee7b7;
+}
+
+.suggested-details-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.detail-tag {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+}
+
+.suggested-diag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+}
+
+.diag-pill {
+    font-size: 0.74rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.diag-pill-preferred {
+    background: #dbeafe;
+    color: #1e40af;
+    border: 1px solid #bfdbfe;
+}
+
+.diag-pill-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.diag-pill-shift {
+    background: #f3e8ff;
+    color: #6b21a8;
+    border: 1px solid #e9d5ff;
+}
+
+.diag-pill-normal {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+body.dark-theme .diag-pill-preferred {
+    background: rgba(30, 64, 175, 0.25);
+    color: #93c5fd;
+    border-color: #1d4ed8;
+}
+
+body.dark-theme .diag-pill-warning {
+    background: rgba(146, 64, 14, 0.25);
+    color: #fde047;
+    border-color: #b45309;
+}
+
+body.dark-theme .diag-pill-shift {
+    background: rgba(107, 33, 168, 0.25);
+    color: #d8b4fe;
+    border-color: #7e22ce;
+}
+
+body.dark-theme .diag-pill-normal {
+    background: rgba(51, 65, 85, 0.3);
+    color: #cbd5e1;
+    border-color: #475569;
 }
 
 /* WIZARD FOOTER ACTIONS */
@@ -1363,11 +1671,265 @@ header{
     gap: 10px;
 }
 
+/* TABLE LOADER & BLUR */
+.table-loader-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(248, 250, 252, 0.65);
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: opacity 0.2s ease;
+}
+body.dark-theme .table-loader-overlay {
+    background: rgba(15, 23, 42, 0.7);
+}
+.table-loader-overlay.active {
+    display: flex;
+}
+.timetable.is-loading {
+    filter: blur(4px);
+    pointer-events: none;
+}
+.table-loader-card {
+    background: var(--card-bg);
+    padding: 20px 28px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* SKELETON LOADING IN SIDEBAR */
+.skeleton-card {
+    height: 75px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+body.dark-theme .skeleton-card {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+}
+.skeleton-stat {
+    height: 52px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+body.dark-theme .skeleton-stat {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+}
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* PRINT HEADER ON SCREEN IS HIDDEN */
+.print-header {
+    display: none;
+}
+
+/* MOBILE DRAWER & BOTTOM SHEET */
+.sidebar-mobile-user-actions {
+    display: none;
+}
+.btn-drawer-toggle {
+    display: none;
+}
+.mobile-only-print {
+    display: none;
+}
+.drawer-user-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+.drawer-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: var(--text-main);
+    font-size: 0.92rem;
+}
+.drawer-username {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.drawer-pref-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+.drawer-pref-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.drawer-actions-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+}
+.drawer-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 6px;
+    font-size: 0.78rem;
+}
+.drawer-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0 8px 0;
+}
+
+.sidebar-header-mobile {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-main);
+}
+.sidebar-close-btn {
+    background: var(--bg);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar-sheet-handle {
+    display: none;
+}
+.sidebar-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 2050;
+    display: none;
+}
+.sidebar-backdrop.active {
+    display: block;
+}
+
+.bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2200;
+    display: none;
+    align-items: flex-end;
+}
+.bottom-sheet-overlay.active {
+    display: flex;
+}
+.bottom-sheet-content {
+    background: var(--card-bg);
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 24px 24px 0 0;
+    padding: 16px 20px 24px 20px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+.bottom-sheet-overlay.active .bottom-sheet-content {
+    transform: translateY(0);
+}
+.bottom-sheet-handle {
+    width: 44px;
+    height: 5px;
+    background: var(--border);
+    border-radius: 10px;
+    margin: 0 auto 14px;
+}
+.bottom-sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+.bottom-sheet-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+.bottom-sheet-body {
+    overflow-y: auto;
+    max-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.mobile-schedule-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.mobile-schedule-card.active {
+    border-color: var(--primary);
+    background: rgba(37, 99, 235, 0.1);
+    font-weight: 700;
+}
+
 /* RESPONSIVE */
 @media (max-width: 768px) {
     body {
-        overflow: auto;
+        overflow-x: hidden;
+        overflow-y: auto;
         height: auto;
+        max-width: 100vw;
     }
     
     .header-row {
@@ -1390,10 +1952,31 @@ header{
     }
     
     .username-display {
-        font-size: 0.9rem;
-        padding: 6px 12px;
+        font-size: 0.85rem;
+        padding: 5px 10px;
     }
     
+    .btn-drawer-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .mobile-only-print {
+        display: inline-flex !important;
+    }
+    
+    .desktop-only-action {
+        display: none !important;
+    }
+    
+    .sidebar-mobile-user-actions {
+        display: flex !important;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
     .btn {
         padding: 6px 10px;
         font-size: 0.8rem;
@@ -1409,44 +1992,87 @@ header{
     }
     
     .schedule-selector {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
+        display: none !important;
     }
     
-    .schedule-selector select {
-        min-width: 120px;
-        font-size: 0.8rem;
+    .btn-mobile-schedules {
+        display: inline-flex !important;
     }
     
     .main {
         grid-template-columns: 1fr;
         flex: none;
+        width: 100%;
+        max-width: 100vw;
+        overflow-x: hidden;
+        min-width: 0;
     }
     
     .sidebar {
-        display: none;
+        display: flex !important;
         position: fixed;
-        top: 0;
-        right: 0;
         bottom: 0;
-        width: 300px;
-        z-index: 500;
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        left: 0;
+        right: 0;
+        top: auto;
+        width: 100%;
+        max-width: 100vw;
+        max-height: 85vh;
+        z-index: 2100;
+        background: var(--sidebar-bg);
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid var(--border);
+        border-bottom: none;
+        overflow-y: auto;
+        padding: 14px 20px 30px 20px;
+        box-sizing: border-box;
     }
     
-    .sidebar.mobile-visible {
+    html[dir="ltr"] .sidebar {
+        right: 0;
+        left: 0;
+        top: auto;
+        bottom: 0;
+        transform: translateY(100%);
+        box-shadow: 0 -10px 40px rgba(0,0,0,0.4);
+    }
+    
+    .sidebar.drawer-open {
+        transform: translateY(0) !important;
+    }
+    
+    .sidebar-sheet-handle {
+        display: block;
+        width: 44px;
+        height: 5px;
+        background: var(--border);
+        border-radius: 10px;
+        margin: 0 auto 12px;
+        flex-shrink: 0;
+    }
+    
+    .sidebar-header-mobile {
         display: flex;
     }
     
     .grid-container {
         padding: 10px;
         overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        max-width: 100vw;
+        min-width: 0;
+        box-sizing: border-box;
     }
     
     .timetable {
-        min-width: 650px;
-        grid-template-columns: 60px repeat(7,1fr);
+        min-width: 955px;
+        width: max-content;
+        grid-template-columns: 70px repeat(7, minmax(125px, 1fr));
     }
     
     .class-block {
@@ -1496,15 +2122,118 @@ header{
     }
 }
 
-@media print{
-    body *{ visibility:hidden; }
-    .timetable, .timetable *{ visibility:visible; }
-    .timetable{
-        position:absolute;
-        top:1;
-        right:0;
-        left:0;
-        margin:10px;
+/* ==========================================
+   PRINT STYLESHEET (CLEAN A4 LANDSCAPE)
+   ========================================== */
+@media print {
+    @page {
+        size: landscape;
+        margin: 6mm 8mm;
+    }
+    
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        height: auto !important;
+        overflow: visible !important;
+        font-size: 10pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Strictly hide all header, sidebar, buttons, modals, toasts, overlays */
+    header,
+    aside,
+    .sidebar,
+    .sidebar-backdrop,
+    .bottom-sheet-overlay,
+    .modal-overlay,
+    .confirm-overlay,
+    .schedule-modal-overlay,
+    .toast-container,
+    .global-loader-overlay,
+    .table-loader-overlay,
+    .btn,
+    .drag-handle,
+    .block-delete-btn {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    .main {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    .grid-container {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: transparent !important;
+    }
+    
+    /* Show Print Header only in Print */
+    .print-header {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #0f172a;
+        padding-bottom: 8px;
+        margin-bottom: 12px;
+    }
+    
+    .print-header h2 {
+        margin: 0 0 4px 0;
+        font-size: 1.25rem;
+        color: #000000;
+    }
+    
+    .print-header-meta {
+        text-align: left;
+        font-size: 0.82rem;
+        color: #334155;
+    }
+    
+    .timetable {
+        display: grid !important;
+        min-width: 100% !important;
+        width: 100% !important;
+        border: 2px solid #000000 !important;
+        border-radius: 4px !important;
+        background: #94a3b8 !important;
+        gap: 1px !important;
+        page-break-inside: avoid;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .cell {
+        background: #ffffff !important;
+        border: none !important;
+    }
+    
+    .header-cell, .time-cell {
+        background: #e2e8f0 !important;
+        color: #000000 !important;
+        font-weight: 700 !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    .class-block {
+        position: absolute !important;
+        border-width: 1.5px !important;
+        box-shadow: none !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        color: #000000 !important;
     }
 }
 </style>
@@ -1512,81 +2241,95 @@ header{
 
 <body>
 
-<!-- Global Content Loading Spinner -->
-<div id="globalLoader" class="global-loader-overlay">
-    <div class="loader-card">
-        <div class="loader-spinner-ring"></div>
-        <div class="loader-text" id="loaderText">در حال بارگذاری اطلاعات جدول...</div>
-    </div>
-</div>
-
 <header>
     <div class="header-row header-row-1">
         <div class="header-right">
-            <span class="username-display">
+            <!-- Mobile Drawer Opener (visible only on mobile) -->
+            <button type="button" class="btn btn-drawer-toggle" onclick="toggleSidebar()" title="منو و سایدبار">
+                <img src="./icons/sidebar.svg" class="icon-header" alt="menu">
+                <span data-i18n="sidebar">برنامه‌ها و منو</span>
+            </button>
+            
+            <!-- Desktop User, Theme, Lang (hidden on mobile) -->
+            <span class="username-display desktop-only-action">
                 <img src="./icons/user.svg" class="icon-header" alt="user">
                 <?php echo htmlspecialchars($_SESSION['username']); ?>
             </span>
+            <button type="button" class="btn btn-theme desktop-only-action" id="btnThemeToggle" onclick="toggleTheme()" title="تغییر تم">
+                <span id="themeIcon"><img src="./icons/moon.svg" class="icon-header" alt="dark mode"></span>
+            </button>
+            <button type="button" class="btn btn-lang desktop-only-action" id="btnLangToggle" onclick="toggleLanguage()" title="Language">
+                <span id="langLabel"><img src="./icons/language.svg" class="icon-header" alt="lang"> EN</span>
+            </button>
         </div>
         
         <div class="header-center">
             <h2>
                 <img src="./icons/calendar.svg" class="icon-main" alt="calendar">
-                زمان‌بندی هفتگی
+                <span data-i18n="weeklyTimetable">زمان‌بندی هفتگی</span>
             </h2>
         </div>
         
         <div class="header-left">
-            <button class="btn btn-print" onclick="window.print()" title="چاپ">
+            <button type="button" class="btn btn-print desktop-only-action" onclick="printTimetable()" title="چاپ">
                 <img src="./icons/print.svg" class="icon-header" alt="print">
-                <span class="btn-text">چاپ</span>
+                <span class="btn-text" data-i18n="print">چاپ</span>
             </button>
-            <button class="btn btn-save" onclick="saveToHost(event)" title="ذخیره">
+            <button type="button" class="btn btn-save desktop-only-action" onclick="saveToHost(event)" title="ذخیره">
                 <img src="./icons/save.svg" class="icon-header" alt="save">
-                <span class="btn-text">ذخیره</span>
+                <span class="btn-text" data-i18n="save">ذخیره</span>
             </button>
-            <button class="btn btn-io" onclick="exportJSON()" title="خروجی JSON">
+            <button type="button" class="btn btn-io desktop-only-action" onclick="exportJSON()" title="خروجی JSON">
                 <img src="./icons/export.svg" class="icon-header" alt="export">
-                <span class="btn-text">خروجی</span>
+                <span class="btn-text" data-i18n="export">خروجی</span>
             </button>
-            <button class="btn btn-io" onclick="document.getElementById('importFile').click()" title="ورودی JSON">
+            <button type="button" class="btn btn-io desktop-only-action" onclick="document.getElementById('importFile').click()" title="ورودی JSON">
                 <img src="./icons/import.svg" class="icon-header" alt="import">
-                <span class="btn-text">ورودی</span>
+                <span class="btn-text" data-i18n="import">ورودی</span>
             </button>
             <input type="file" id="importFile" accept=".json" style="display:none">
-            <button class="btn btn-add" id="btnOpenModal" title="افزودن آیتم">
+            <button type="button" class="btn btn-add" id="btnOpenModal" title="افزودن آیتم">
                 <img src="./icons/add.svg" class="icon-header" alt="add">
-                <span class="btn-text">افزودن</span>
+                <span class="btn-text" data-i18n="add">افزودن</span>
             </button>
-            <button class="btn btn-auto-schedule" onclick="openAutoScheduleModal()" title="برنامه‌ریزی هوشمند">
+            <button type="button" class="btn btn-auto-schedule" onclick="openAutoScheduleModal()" title="برنامه‌ریزی هوشمند">
                 <img src="./icons/magic.svg" class="icon-header" alt="auto">
-                <span class="btn-text">پیشنهاد هوشمند</span>
+                <span class="btn-text" data-i18n="smartSchedule">پیشنهاد هوشمند</span>
             </button>
         </div>
     </div>
     
     <div class="header-row header-row-2">
         <div class="header-right">
-            <a href="logout.php" class="btn btn-logout">
-                <img src="./icons/logout.svg" class="icon-header" alt="logout"> خروج
+            <a href="logout.php" class="btn btn-logout desktop-only-action">
+                <img src="./icons/logout.svg" class="icon-header" alt="logout"> <span data-i18n="logout">خروج</span>
             </a>
-            <button class="btn btn-toggle" onclick="toggleSidebar()">
-                <img src="./icons/sidebar.svg" class="icon-header" alt="sidebar"> سایدبار
+            <button type="button" class="btn btn-toggle desktop-only-action" onclick="toggleSidebar()">
+                <img src="./icons/sidebar.svg" class="icon-header" alt="sidebar"> <span data-i18n="sidebar">سایدبار</span>
+            </button>
+            
+            <!-- Mobile schedules sheet button -->
+            <button type="button" class="btn btn-mobile-schedules" onclick="openMobileScheduleSheet()">
+                <img src="./icons/calendar.svg" class="icon-header" alt="calendar"> <span data-i18n="schedules">انتخاب جدول</span>
+            </button>
+            <button type="button" class="btn btn-print mobile-only-print" onclick="printTimetable()" title="چاپ">
+                <img src="./icons/print.svg" class="icon-header" alt="print">
+                <span class="btn-text" data-i18n="print">چاپ</span>
             </button>
         </div>
         
-        <div class="header-schedule-controls">
+        <div class="header-schedule-controls desktop-only-action">
             <div class="schedule-selector">
                 <select id="scheduleSelect" onchange="switchSchedule()">
                     <option value="">بارگذاری...</option>
                 </select>
-                <button class="btn btn-schedule" onclick="showScheduleModal('create')" title="جدول جدید">
-                    <img src="./icons/add_purple.svg" class="icon-header" alt="new"> جدید
+                <button type="button" class="btn btn-schedule" onclick="showScheduleModal('create')" title="جدول جدید">
+                    <img src="./icons/add_purple.svg" class="icon-header" alt="new"> <span data-i18n="newSchedule">جدید</span>
                 </button>
-                <button class="btn btn-schedule" onclick="showScheduleModal('rename')" title="تغییر نام">
+                <button type="button" class="btn btn-schedule" onclick="showScheduleModal('rename')" title="تغییر نام">
                     <img src="./icons/edit_purple.svg" class="icon-header" alt="rename">
                 </button>
-                <button class="btn btn-schedule" onclick="deleteCurrentSchedule()" title="حذف جدول">
+                <button type="button" class="btn btn-schedule" onclick="deleteCurrentSchedule()" title="حذف جدول">
                     <img src="./icons/delete_purple.svg" class="icon-header" alt="delete">
                 </button>
             </div>
@@ -1596,18 +2339,85 @@ header{
 
 <div class="main" id="mainLayout">
     <aside class="sidebar" id="sidebar">
+        <div class="sidebar-sheet-handle"></div>
+        <div class="sidebar-header-mobile">
+            <span data-i18n="menuAndStats">منو و برنامه‌ها</span>
+            <button type="button" class="sidebar-close-btn" onclick="toggleSidebar()">&times;</button>
+        </div>
+        
+        <!-- Mobile Drawer Top Section: User, Settings & Actions -->
+        <div class="sidebar-mobile-user-actions" id="sidebarMobileUserActions">
+            <div class="drawer-user-card">
+                <div class="drawer-user-info">
+                    <img src="./icons/user.svg" class="icon" alt="user">
+                    <span class="drawer-username"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                </div>
+                <a href="logout.php" class="btn btn-logout drawer-logout-btn" title="خروج">
+                    <img src="./icons/logout.svg" class="icon" alt="logout">
+                    <span data-i18n="logout">خروج</span>
+                </a>
+            </div>
+            
+            <div class="drawer-pref-row">
+                <button type="button" class="drawer-pref-btn" onclick="toggleTheme()" title="تغییر تم">
+                    <img id="drawerThemeIcon" src="./icons/moon.svg" class="icon" alt="theme">
+                    <span id="drawerThemeText">تم تاریک</span>
+                </button>
+                <button type="button" class="drawer-pref-btn" onclick="toggleLanguage()" title="Language">
+                    <img src="./icons/language.svg" class="icon" alt="language">
+                    <span id="drawerLangLabel">English</span>
+                </button>
+            </div>
+            
+            <div class="drawer-actions-row">
+                <button type="button" class="btn btn-save drawer-action-btn" onclick="saveToHost(event)" title="ذخیره">
+                    <img src="./icons/save.svg" class="icon" alt="save">
+                    <span data-i18n="save">ذخیره</span>
+                </button>
+                <button type="button" class="btn btn-io drawer-action-btn" onclick="exportJSON()" title="خروجی JSON">
+                    <img src="./icons/export.svg" class="icon" alt="export">
+                    <span data-i18n="export">خروجی</span>
+                </button>
+                <button type="button" class="btn btn-io drawer-action-btn" onclick="document.getElementById('importFile').click()" title="ورودی JSON">
+                    <img src="./icons/import.svg" class="icon" alt="import">
+                    <span data-i18n="import">ورودی</span>
+                </button>
+            </div>
+            <div class="drawer-divider"></div>
+        </div>
+        
         <div class="sidebar-section">
-            <h3><img src="./icons/list.svg" class="icon" alt="list"> لیست زمان‌بندی‌ها</h3>
+            <h3><img src="./icons/list.svg" class="icon" alt="list"> <span data-i18n="schedulesList">لیست زمان‌بندی‌ها</span></h3>
             <div id="courseList"></div>
         </div>
         
         <div class="sidebar-section">
-            <h3><img src="./icons/chart.svg" class="icon" alt="stats"> مجموع زمان هر دسته‌بندی</h3>
+            <h3><img src="./icons/chart.svg" class="icon" alt="stats"> <span data-i18n="categoryTotals">مجموع زمان هر دسته‌بندی</span></h3>
             <div id="categoryStats" class="stats-grid"></div>
         </div>
     </aside>
 
     <div class="grid-container">
+        <!-- Print Header (visible only on print) -->
+        <div class="print-header" id="printHeader">
+            <div class="print-header-title">
+                <h2 id="printTitle">برنامه هفتگی</h2>
+                <div id="printSubtitle" style="font-size:0.9rem; font-weight:bold; color:#2563eb;">جدول اصلی</div>
+            </div>
+            <div class="print-header-meta">
+                <div id="printUser">کاربر: <?php echo htmlspecialchars($_SESSION['username']); ?></div>
+                <div id="printDate"></div>
+            </div>
+        </div>
+        
+        <!-- Targeted Table Loading Overlay & Blur -->
+        <div id="tableLoaderOverlay" class="table-loader-overlay">
+            <div class="table-loader-card">
+                <div class="loader-spinner-ring"></div>
+                <span class="loader-text" id="tableLoaderText">در حال بارگذاری جدول...</span>
+            </div>
+        </div>
+
         <div class="timetable" id="timetable"></div>
     </div>
 </div>
@@ -1617,7 +2427,7 @@ header{
     <div class="modal-container">
         <h3 class="modal-title">
             <img src="./icons/add.svg" class="icon-header" alt="add">
-            <span id="modalTitle">افزودن زمان‌بندی</span>
+            <span id="modalTitle" data-i18n="addSchedule">افزودن زمان‌بندی</span>
         </h3>
         
         <div class="form-grid">
@@ -1631,10 +2441,10 @@ header{
             <select id="category" class="full-width">
                 <option value="uni">کلاس دانشگاهی</option>
                 <option value="nonuni">کلاس غیر دانشگاهی</option>
-                <option value="plus">درس پلاس</option>
+                <option value="plus">درس خواندن</option>
                 <option value="sport">ورزش</option>
                 <option value="book">کتاب</option>
-                <option value="movie">فیلم</option>
+                <option value="movie">فیلم و تفریح</option>
                 <option value="work">کار</option>
                 <option value="other">غیره</option>
             </select>
@@ -1644,6 +2454,10 @@ header{
                 <option value="2">یکشنبه</option>
                 <option value="3">دوشنبه</option>
                 <option value="4">سه‌شنبه</option>
+                <option value="5">چهارشنبه</option>
+                <option value="6">پنج‌شنبه</option>
+                <option value="7">جمعه</option>
+            </select>
                 <option value="5">چهارشنبه</option>
                 <option value="6">پنج‌شنبه</option>
                 <option value="7">جمعه</option>
@@ -1806,14 +2620,14 @@ header{
                         <p class="slide-desc">نتیجه تولید برنامه بر پایه هوش مصنوعی و شروط شما آماده است. پیش‌نمایش را بررسی کنید.</p>
                     </div>
                     
-                    <div class="score-dashboard" id="scoreDashboard">
-                        <div class="score-circle">
+                    <div class="score-dashboard-pro" id="scoreDashboard">
+                        <div class="score-badge-circle">
                             <span id="scorePercent">۹۸٪</span>
                             <small>امتیاز</small>
                         </div>
-                        <div class="score-details">
-                            <div class="score-details-title" id="scoreSummaryTitle">بهینه‌سازی عالی و بدون تداخل</div>
-                            <div class="score-chips" id="scoreChipsList"></div>
+                        <div class="score-pro-meta">
+                            <div class="score-pro-title" id="scoreSummaryTitle">چیدمان بهینه و بدون تداخل زمانی</div>
+                            <div class="score-pro-chips" id="scoreChipsList"></div>
                         </div>
                     </div>
                     
@@ -1875,6 +2689,29 @@ header{
     </div>
 </div>
 
+<!-- Sidebar Backdrop (for Mobile Drawer) -->
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="toggleSidebar()"></div>
+
+<!-- Mobile Schedule Bottom Sheet -->
+<div class="bottom-sheet-overlay" id="mobileScheduleSheetOverlay" onclick="closeMobileScheduleSheet(event)">
+    <div class="bottom-sheet-content" id="mobileScheduleSheet">
+        <div class="bottom-sheet-handle"></div>
+        <div class="bottom-sheet-header">
+            <h3 style="margin:0; display:flex; align-items:center; gap:8px; font-size:1.05rem; color:var(--text-main);">
+                <img src="./icons/calendar.svg" class="icon-header" alt="calendar">
+                <span data-i18n="manageSchedules">انتخاب و مدیریت جدول‌ها</span>
+            </h3>
+            <button type="button" class="bottom-sheet-close" onclick="closeMobileScheduleSheet()">&times;</button>
+        </div>
+        <div class="bottom-sheet-body" id="mobileSchedulesList"></div>
+        <div style="margin-top:14px; display:flex; gap:8px;">
+            <button type="button" class="btn btn-add" style="flex:1; justify-content:center; padding:10px;" onclick="closeMobileScheduleSheet(); showScheduleModal('create');">
+                <img src="./icons/add.svg" class="icon-header" alt="add"> <span data-i18n="newSchedule">ایجاد جدول جدید</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- Toast Container -->
 <div class="toast-container" id="toastContainer"></div>
 
@@ -1885,18 +2722,311 @@ header{
 const CSRF_TOKEN = '<?php echo htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8'); ?>';
 
 // ==========================================
-// GLOBAL LOADER CONTROLLER
+// THEME CONTROLLER (LIGHT / DARK)
 // ==========================================
-function showLoader(text = 'در حال بارگذاری اطلاعات جدول...') {
-    const loader = document.getElementById('globalLoader');
-    const textEl = document.getElementById('loaderText');
-    if (textEl && text) textEl.textContent = text;
-    if (loader) loader.classList.add('active');
+let currentTheme = localStorage.getItem('timetable_theme') || 
+    (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+function applyTheme(theme) {
+    currentTheme = theme;
+    localStorage.setItem('timetable_theme', theme);
+    const icon = document.getElementById('themeIcon');
+    const drawerIcon = document.getElementById('drawerThemeIcon');
+    const drawerText = document.getElementById('drawerThemeText');
+    
+    if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+        if (icon) icon.innerHTML = '<img src="./icons/sun.svg" class="icon-header" alt="light mode">';
+        if (drawerIcon) drawerIcon.src = './icons/sun.svg';
+        if (drawerText) drawerText.textContent = currentLang === 'en' ? 'Light Theme' : 'تم روشن';
+    } else {
+        document.body.classList.remove('dark-theme');
+        if (icon) icon.innerHTML = '<img src="./icons/moon.svg" class="icon-header" alt="dark mode">';
+        if (drawerIcon) drawerIcon.src = './icons/moon.svg';
+        if (drawerText) drawerText.textContent = currentLang === 'en' ? 'Dark Theme' : 'تم تاریک';
+    }
+    renderTimetable();
+}
+
+function toggleTheme() {
+    applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+}
+
+// ==========================================
+// BILINGUAL CONTROLLER (FA / EN)
+// ==========================================
+let currentLang = localStorage.getItem('timetable_lang') || 'fa';
+
+const i18n = {
+    fa: {
+        weeklyTimetable: 'زمان‌بندی هفتگی',
+        print: 'چاپ',
+        save: 'ذخیره',
+        saving: 'در حال ذخیره‌سازی...',
+        export: 'خروجی',
+        import: 'ورودی',
+        add: 'افزودن',
+        smartSchedule: 'پیشنهاد هوشمند',
+        logout: 'خروج',
+        sidebar: 'سایدبار',
+        schedules: 'جدول‌ها',
+        newSchedule: 'جدول جدید',
+        renameSchedule: 'تغییر نام',
+        deleteSchedule: 'حذف جدول',
+        manageSchedules: 'انتخاب و مدیریت جدول‌ها',
+        menuAndStats: 'منو و آمارها',
+        schedulesList: 'لیست زمان‌بندی‌ها',
+        categoryTotals: 'مجموع زمان هر دسته‌بندی',
+        noItemsYet: 'هنوز هیچ آیتمی اضافه نشده',
+        noStatsYet: 'آماری برای نمایش وجود ندارد',
+        grandTotal: 'مجموع کل',
+        addSchedule: 'افزودن زمان‌بندی',
+        editSchedule: 'ویرایش زمان‌بندی',
+        title: 'عنوان',
+        teacher: 'استاد / مربی',
+        location: 'مکان',
+        category: 'دسته‌بندی',
+        day: 'روز هفته',
+        cancel: 'انصراف',
+        confirm: 'تایید',
+        delete: 'حذف',
+        to: 'تا',
+        hours: 'ساعت',
+        minutes: 'دقیقه',
+        loadingTable: 'در حال بارگذاری جدول...',
+        scheduleChanged: 'جدول با موفقیت تغییر کرد',
+        savedSuccess: 'اطلاعات با موفقیت ذخیره شد',
+        deletedSuccess: 'آیتم با موفقیت حذف شد',
+        addedSuccess: 'آیتم جدید با موفقیت اضافه شد',
+        editedSuccess: 'آیتم با موفقیت ویرایش شد',
+        deleteConfirm: 'آیا از حذف این آیتم اطمینان دارید؟',
+        deleteScheduleConfirm: 'آیا از حذف این جدول و تمام اطلاعات آن اطمینان دارید؟',
+        cantDeleteDefault: 'نمی‌توانید جدول اصلی را حذف کنید',
+        exportSuccess: 'فایل پشتیبان با موفقیت خروجی گرفته شد',
+        importSuccess: 'فایل با موفقیت وارد شد',
+        timeOverlapWarning: 'زمان پایان باید بعد از زمان شروع باشد',
+        titleRequired: 'فیلد عنوان الزامی است',
+        lockCourses: 'تثبیت برنامه‌ها',
+        addTasks: 'افزودن فعالیت‌ها',
+        strategyAndRules: 'استراتژی و شروط',
+        previewAndApply: 'پیش‌نمایش و اعمال',
+        nextStep: 'مرحله بعد ➔',
+        prevStep: 'بازگشت',
+        generateSchedule: 'تولید و تحلیل برنامه ➔',
+        applySchedule: 'اعمال برنامه به جدول',
+        preferredDayHonored: 'روز ترجیحی کاملاً رعایت شد',
+        preferredDayFull: 'به دلیل پر بودن روز انتخابی، به این روز منتقل شد'
+    },
+    en: {
+        weeklyTimetable: 'Weekly Timetable',
+        print: 'Print',
+        save: 'Save',
+        saving: 'Saving...',
+        export: 'Export',
+        import: 'Import',
+        add: 'Add Item',
+        smartSchedule: 'Smart Scheduler',
+        logout: 'Logout',
+        sidebar: 'Sidebar',
+        schedules: 'Schedules',
+        newSchedule: 'New Schedule',
+        renameSchedule: 'Rename',
+        deleteSchedule: 'Delete',
+        manageSchedules: 'Select & Manage Schedules',
+        menuAndStats: 'Menu & Statistics',
+        schedulesList: 'Schedule Items',
+        categoryTotals: 'Time by Category',
+        noItemsYet: 'No items added yet',
+        noStatsYet: 'No statistics available',
+        grandTotal: 'Grand Total',
+        addSchedule: 'Add Item',
+        editSchedule: 'Edit Item',
+        title: 'Title',
+        teacher: 'Instructor / Coach',
+        location: 'Location',
+        category: 'Category',
+        day: 'Day of Week',
+        cancel: 'Cancel',
+        confirm: 'Confirm',
+        delete: 'Delete',
+        to: 'to',
+        hours: 'hrs',
+        minutes: 'mins',
+        loadingTable: 'Loading timetable...',
+        scheduleChanged: 'Schedule changed successfully',
+        savedSuccess: 'Saved successfully',
+        deletedSuccess: 'Item deleted successfully',
+        addedSuccess: 'New item added successfully',
+        editedSuccess: 'Item updated successfully',
+        deleteConfirm: 'Are you sure you want to delete this item?',
+        deleteScheduleConfirm: 'Are you sure you want to delete this schedule and all its courses?',
+        cantDeleteDefault: 'You cannot delete the default schedule',
+        exportSuccess: 'Backup exported successfully',
+        importSuccess: 'Backup imported successfully',
+        timeOverlapWarning: 'End time must be after start time',
+        titleRequired: 'Title field is required',
+        lockCourses: 'Lock Courses',
+        addTasks: 'Add Tasks',
+        strategyAndRules: 'Strategy & Rules',
+        previewAndApply: 'Preview & Apply',
+        nextStep: 'Next Step ➔',
+        prevStep: 'Back',
+        generateSchedule: 'Generate & Analyze ➔',
+        applySchedule: 'Apply to Timetable',
+        preferredDayHonored: 'Preferred Day Honored',
+        preferredDayFull: 'Preferred day full; placed on best day'
+    }
+};
+
+function t(key) {
+    return (i18n[currentLang] && i18n[currentLang][key]) ? i18n[currentLang][key] : key;
+}
+
+const daysFa = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
+const daysEn = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+let days = currentLang === 'en' ? daysEn : daysFa;
+
+const categoryNamesFa = {
+    uni: 'کلاس دانشگاهی',
+    sport: 'ورزش',
+    nonuni: 'کلاس غیر دانشگاهی',
+    plus: 'درس خواندن',
+    work: 'کار',
+    book: 'کتاب',
+    movie: 'فیلم و تفریح',
+    other: 'غیره'
+};
+
+const categoryNamesEn = {
+    uni: 'University Class',
+    sport: 'Sports',
+    nonuni: 'Non-Uni Class',
+    plus: 'Studying',
+    work: 'Work',
+    book: 'Reading Book',
+    movie: 'Movie & Fun',
+    other: 'Other'
+};
+let categoryNames = currentLang === 'en' ? categoryNamesEn : categoryNamesFa;
+
+function applyLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('timetable_lang', lang);
+    days = lang === 'en' ? daysEn : daysFa;
+    categoryNames = lang === 'en' ? categoryNamesEn : categoryNamesFa;
+    
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+    
+    const langBtn = document.getElementById('langLabel');
+    if (langBtn) {
+        langBtn.innerHTML = lang === 'en' 
+            ? '<img src="./icons/language.svg" class="icon-header" alt="lang"> فارسی' 
+            : '<img src="./icons/language.svg" class="icon-header" alt="lang"> EN';
+    }
+    const drawerLang = document.getElementById('drawerLangLabel');
+    if (drawerLang) {
+        drawerLang.textContent = lang === 'en' ? 'فارسی' : 'English';
+    }
+    const drawerThemeText = document.getElementById('drawerThemeText');
+    if (drawerThemeText) {
+        drawerThemeText.textContent = currentTheme === 'dark' 
+            ? (lang === 'en' ? 'Light Theme' : 'تم روشن')
+            : (lang === 'en' ? 'Dark Theme' : 'تم تاریک');
+    }
+    
+    // Update all elements with data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang] && i18n[lang][key]) {
+            el.textContent = i18n[lang][key];
+        }
+    });
+    
+    // Update day selects
+    const daySelect = document.getElementById('day');
+    if (daySelect) {
+        const curVal = daySelect.value;
+        daySelect.innerHTML = '';
+        days.forEach((d, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx + 1;
+            opt.textContent = d;
+            if ((idx + 1) == curVal) opt.selected = true;
+            daySelect.appendChild(opt);
+        });
+    }
+    
+    // Update category selects
+    const catSelect = document.getElementById('category');
+    if (catSelect) {
+        const curVal = catSelect.value;
+        catSelect.innerHTML = '';
+        Object.entries(categoryNames).forEach(([catKey, catName]) => {
+            const opt = document.createElement('option');
+            opt.value = catKey;
+            opt.textContent = catName;
+            if (catKey === curVal) opt.selected = true;
+            catSelect.appendChild(opt);
+        });
+    }
+    
+    render();
+    if (document.getElementById('autoScheduleModal').style.display === 'flex') {
+        updateWizardStepperUI();
+        renderFixedItemsList();
+    }
+}
+
+function toggleLanguage() {
+    applyLanguage(currentLang === 'fa' ? 'en' : 'fa');
+}
+
+// ==========================================
+// TARGETED LOADER & SKELETON CONTROLLER
+// ==========================================
+function showTableLoader(text) {
+    const overlay = document.getElementById('tableLoaderOverlay');
+    const table = document.getElementById('timetable');
+    const textEl = document.getElementById('tableLoaderText');
+    if (textEl) textEl.textContent = text || t('loadingTable');
+    if (table) table.classList.add('is-loading');
+    if (overlay) overlay.classList.add('active');
+}
+
+function hideTableLoader() {
+    const overlay = document.getElementById('tableLoaderOverlay');
+    const table = document.getElementById('timetable');
+    if (table) table.classList.remove('is-loading');
+    if (overlay) overlay.classList.remove('active');
+}
+
+function showSidebarSkeleton() {
+    const courseList = document.getElementById('courseList');
+    const statsGrid = document.getElementById('categoryStats');
+    if (courseList) {
+        courseList.innerHTML = `
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        `;
+    }
+    if (statsGrid) {
+        statsGrid.innerHTML = `
+            <div class="skeleton-stat"></div>
+            <div class="skeleton-stat"></div>
+            <div class="skeleton-stat"></div>
+            <div class="skeleton-stat"></div>
+        `;
+    }
+}
+
+function showLoader(text) {
+    showTableLoader(text);
 }
 
 function hideLoader() {
-    const loader = document.getElementById('globalLoader');
-    if (loader) loader.classList.remove('active');
+    hideTableLoader();
 }
 
 // ==========================================
@@ -1920,19 +3050,6 @@ const categoryColors = {
     other: '#999999'
 };
 
-const categoryNames = {
-    uni: 'کلاس دانشگاهی',
-    sport: 'ورزش',
-    nonuni: 'کلاس غیر دانشگاهی',
-    plus: 'درس پلاس',
-    work: 'کار',
-    book: 'کتاب',
-    movie: 'فیلم',
-    other: 'غیره'
-};
-
-const days = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه'];
-
 // ==========================================
 // TOAST SYSTEM
 // ==========================================
@@ -1949,7 +3066,6 @@ function showToast(message, type = 'info') {
     toast.innerHTML = `${icon} ${message}`;
     container.appendChild(toast);
     
-    // Auto remove after animation
     setTimeout(() => {
         if (toast.parentNode) {
             toast.remove();
@@ -1981,20 +3097,130 @@ document.getElementById('confirmYes').addEventListener('click', function() {
 });
 
 // ==========================================
+// PRINT FUNCTION (A4 LANDSCAPE)
+// ==========================================
+function printTimetable() {
+    const printTitle = document.getElementById('printTitle');
+    const printSubtitle = document.getElementById('printSubtitle');
+    const printUser = document.getElementById('printUser');
+    const printDate = document.getElementById('printDate');
+    
+    if (printTitle) printTitle.textContent = currentLang === 'en' ? 'Weekly Timetable' : 'برنامه هفتگی';
+    if (printSubtitle) printSubtitle.textContent = (currentLang === 'en' ? 'Schedule: ' : 'جدول: ') + currentScheduleName;
+    if (printUser) printUser.textContent = (currentLang === 'en' ? 'User: ' : 'کاربر: ') + '<?php echo htmlspecialchars($_SESSION['username']); ?>';
+    
+    const now = new Date();
+    const dateStr = currentLang === 'en' 
+        ? now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' })
+        : now.toLocaleDateString('fa-IR');
+    if (printDate) printDate.textContent = (currentLang === 'en' ? 'Date: ' : 'تاریخ: ') + dateStr;
+    
+    window.print();
+}
+
+// ==========================================
+// MOBILE DRAWER & BOTTOM SHEET CONTROLLERS
+// ==========================================
+function toggleSidebar() {
+    const mainLayout = document.getElementById('mainLayout');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    
+    if (window.innerWidth <= 768) {
+        const sheetOverlay = document.getElementById('mobileScheduleSheetOverlay');
+        if (sheetOverlay) sheetOverlay.classList.remove('active');
+        
+        const isOpen = sidebar.classList.toggle('drawer-open');
+        if (backdrop) backdrop.classList.toggle('active', isOpen);
+    } else {
+        mainLayout.classList.toggle('full');
+        sidebar.classList.toggle('hidden');
+    }
+}
+
+function openMobileScheduleSheet() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar && sidebar.classList.contains('drawer-open')) {
+        sidebar.classList.remove('drawer-open');
+        if (backdrop) backdrop.classList.remove('active');
+    }
+    
+    const sheetOverlay = document.getElementById('mobileScheduleSheetOverlay');
+    const listEl = document.getElementById('mobileSchedulesList');
+    if (!sheetOverlay || !listEl) return;
+    
+    listEl.innerHTML = '';
+    
+    schedules.forEach(schedule => {
+        const isCurrent = schedule.id == currentScheduleId;
+        const iconSrc = isCurrent ? './icons/schedule_selected.svg' : './icons/schedule_unselected.svg';
+        const card = document.createElement('div');
+        card.className = `mobile-schedule-card ${isCurrent ? 'active' : ''}`;
+        card.innerHTML = `
+            <div style="display:flex; align-items:center; gap:10px;">
+                <img src="${iconSrc}" class="icon" style="width:22px; height:22px;" alt="${isCurrent ? 'selected' : 'unselected'}">
+                <div>
+                    <div style="font-weight:700; color:var(--text-main); font-size:0.95rem;">
+                        ${escapeHtml(schedule.name)} ${schedule.is_default == 1 ? '<span style="font-size:0.75rem; color:var(--primary); font-weight:normal;">(' + (currentLang === 'en' ? 'Default' : 'اصلی') + ')</span>' : ''}
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn btn-mini" onclick="event.stopPropagation(); closeMobileScheduleSheet(); showScheduleModal('rename');" title="${t('renameSchedule')}">
+                    <img src="./icons/edit_purple.svg" class="icon" alt="edit">
+                </button>
+                ${schedule.is_default == 0 ? `
+                <button type="button" class="btn btn-mini" style="background:#fee2e2; border-color:#fca5a5; color:#dc2626;" onclick="event.stopPropagation(); closeMobileScheduleSheet(); currentScheduleId = ${schedule.id}; deleteCurrentSchedule();" title="${t('deleteSchedule')}">
+                    <img src="./icons/delete_purple.svg" class="icon" alt="delete">
+                </button>
+                ` : ''}
+            </div>
+        `;
+        
+        card.addEventListener('click', async () => {
+            if (schedule.id != currentScheduleId) {
+                closeMobileScheduleSheet();
+                document.getElementById('scheduleSelect').value = schedule.id;
+                await switchSchedule();
+            } else {
+                closeMobileScheduleSheet();
+            }
+        });
+        
+        listEl.appendChild(card);
+    });
+    
+    sheetOverlay.classList.add('active');
+}
+
+function closeMobileScheduleSheet(e) {
+    if (e && e.target && e.target.id !== 'mobileScheduleSheetOverlay' && !e.target.classList.contains('bottom-sheet-close')) {
+        return;
+    }
+    const sheetOverlay = document.getElementById('mobileScheduleSheetOverlay');
+    if (sheetOverlay) sheetOverlay.classList.remove('active');
+}
+
+// ==========================================
 // INITIALIZATION
 // ==========================================
 window.addEventListener('DOMContentLoaded', async function() {
-    showLoader('در حال بارگذاری اطلاعات جدول...');
+    applyTheme(currentTheme);
+    applyLanguage(currentLang);
+    
+    showTableLoader();
+    showSidebarSkeleton();
+    
     try {
         await loadSchedulesList();
         await loadCurrentSchedule();
     } catch (e) {
         console.error('Initialization error:', e);
     } finally {
-        hideLoader();
+        hideTableLoader();
     }
     
-    // Setup event listeners
     setupModalListeners();
     setupImportListener();
     setupKeyboardShortcuts();
@@ -2031,7 +3257,7 @@ function updateScheduleSelect() {
     schedules.forEach(schedule => {
         const option = document.createElement('option');
         option.value = schedule.id;
-        option.textContent = schedule.name + (schedule.is_default == 1 ? ' (اصلی)' : '');
+        option.textContent = schedule.name + (schedule.is_default == 1 ? ' (' + (currentLang === 'en' ? 'Default' : 'اصلی') + ')' : '');
         if (schedule.id == currentScheduleId) {
             option.selected = true;
         }
@@ -2044,23 +3270,26 @@ async function switchSchedule() {
     const newId = select.value;
     
     if (newId != currentScheduleId) {
-        showLoader('در حال تعویض جدول...');
+        showTableLoader();
+        showSidebarSkeleton();
         try {
             await saveCurrentScheduleSilent();
             currentScheduleId = newId;
             const schedule = schedules.find(s => s.id == newId);
             if (schedule) currentScheduleName = schedule.name;
             await loadCurrentSchedule();
-            showToast('جدول با موفقیت تغییر کرد', 'info');
+            showToast(t('scheduleChanged'), 'info');
         } catch (e) {
             showToast('خطا در تغییر جدول', 'error');
         } finally {
-            hideLoader();
+            hideTableLoader();
         }
     }
 }
 
 async function loadCurrentSchedule() {
+    showTableLoader();
+    showSidebarSkeleton();
     try {
         const url = currentScheduleId ? `api.php?action=get&schedule_id=${currentScheduleId}` : 'api.php';
         const response = await fetch(url);
@@ -2075,6 +3304,8 @@ async function loadCurrentSchedule() {
         console.error('Error loading schedule:', err);
         courses = [];
         render();
+    } finally {
+        hideTableLoader();
     }
 }
 
@@ -2276,12 +3507,15 @@ function addBlockToTimetable(course, index) {
         const parent = document.getElementById(`d-${course.day}-h-${sh}`);
         if (!parent) return;
         
+        const isDark = document.body.classList.contains('dark-theme');
         const block = document.createElement('div');
         block.className = 'class-block';
         block.setAttribute('data-course-index', index);
         block.style.borderColor = categoryColors[course.category];
-        block.style.color = '#000000';
-        block.style.background = `linear-gradient(135deg, ${categoryColors[course.category]}10, ${categoryColors[course.category]}25)`;
+        block.style.color = isDark ? '#f8fafc' : '#0f172a';
+        block.style.background = isDark 
+            ? `linear-gradient(135deg, ${categoryColors[course.category]}30, ${categoryColors[course.category]}48)`
+            : `linear-gradient(135deg, ${categoryColors[course.category]}14, ${categoryColors[course.category]}28)`;
         block.style.top = `${(sm / 60) * 55}px`;
         block.style.height = `${(duration / 60) * 55 - 13}px`;
         
@@ -2293,8 +3527,8 @@ function addBlockToTimetable(course, index) {
                 <img src="./icons/delete.svg" class="icon" alt="delete">
             </div>
             <b>${escapeHtml(course.name)}</b>
-            <span style="font-size:0.7rem">${categoryNames[course.category]} | ${escapeHtml(course.loc)}</span>
-            <span style="font-size:0.7rem">${course.sTime} تا ${course.eTime}</span>
+            <span style="font-size:0.7rem">${categoryNames[course.category] || ''} | ${escapeHtml(course.loc)}</span>
+            <span style="font-size:0.7rem">${course.sTime} ${t('to')} ${course.eTime}</span>
         `;
         
         // Click on block (not buttons) to edit
@@ -2311,12 +3545,12 @@ function addBlockToTimetable(course, index) {
                 e.stopPropagation();
                 e.preventDefault();
                 
-                const courseName = courses[index] ? courses[index].name : 'این آیتم';
-                showConfirm(`آیا از حذف "${courseName}" اطمینان دارید؟`, function() {
+                const courseName = courses[index] ? courses[index].name : t('thisItem');
+                showConfirm(`${t('deleteConfirm')} ("${courseName}")`, function() {
                     courses.splice(index, 1);
                     render();
                     saveToHost();
-                    showToast(`"${courseName}" با موفقیت حذف شد`, 'success');
+                    showToast(`"${courseName}" ${t('deletedSuccess')}`, 'success');
                 });
             });
         }
@@ -2346,7 +3580,7 @@ function renderSidebar() {
     list.innerHTML = '';
     
     if (courses.length === 0) {
-        list.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:20px;">هنوز هیچ آیتمی اضافه نشده</div>';
+        list.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:20px;">${t('noItemsYet')}</div>`;
         return;
     }
     
@@ -2356,11 +3590,20 @@ function renderSidebar() {
         return a.sTime.localeCompare(b.sTime);
     });
     
+    const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
+    
     sortedCourses.forEach((course) => {
         const originalIndex = courses.indexOf(course);
         const card = document.createElement('div');
         card.className = 'course-card';
-        card.style.borderRight = `6px solid ${categoryColors[course.category]}`;
+        if (isRtl) {
+            card.style.borderRight = `6px solid ${categoryColors[course.category]}`;
+            card.style.borderLeft = 'none';
+        } else {
+            card.style.borderLeft = `6px solid ${categoryColors[course.category]}`;
+            card.style.borderRight = 'none';
+        }
+        
         card.innerHTML = `
             <img src="./icons/delete.svg" class="delete-btn" alt="delete">
             <b>${escapeHtml(course.name)}</b>
@@ -2371,10 +3614,10 @@ function renderSidebar() {
                 <img src="./icons/location.svg" class="icon" alt="location"> ${escapeHtml(course.loc)}
             </div>
             <div class="card-info">
-                <img src="./icons/clock.svg" class="icon" alt="clock"> ${days[course.day-1]} | ${course.sTime} تا ${course.eTime}
+                <img src="./icons/clock.svg" class="icon" alt="clock"> ${days[course.day-1]} | ${course.sTime} ${t('to')} ${course.eTime}
             </div>
             <div class="card-info">
-                <img src="./icons/folder.svg" class="icon" alt="folder"> ${categoryNames[course.category]}
+                <img src="./icons/folder.svg" class="icon" alt="folder"> ${categoryNames[course.category] || ''}
             </div>
         `;
         
@@ -2417,20 +3660,20 @@ function renderCategoryStats() {
     });
     
     if (grandTotal === 0) {
-        statsContainer.innerHTML = '<div style="text-align:center; color:#94a3b8; padding:10px; font-size:0.8rem;">آماری برای نمایش وجود ندارد</div>';
+        statsContainer.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:10px; font-size:0.8rem;">${t('noStatsYet')}</div>`;
         return;
     }
     
     Object.entries(totals).forEach(([category, minutes]) => {
         const hours = Math.floor(minutes / 60);
         const mins = minutes % 60;
-        const timeStr = hours > 0 ? `${hours}:${mins.toString().padStart(2, '0')} ساعت` : `${mins} دقیقه`;
+        const timeStr = hours > 0 ? `${hours}:${mins.toString().padStart(2, '0')} ${t('hours')}` : `${mins} ${t('minutes')}`;
         
         const statItem = document.createElement('div');
         statItem.className = 'stat-item';
         statItem.innerHTML = `
             <span class="stat-dot" style="background:${categoryColors[category]}"></span>
-            <div class="stat-label">${categoryNames[category]}</div>
+            <div class="stat-label">${categoryNames[category] || ''}</div>
             <div class="stat-value">${timeStr}</div>
         `;
         statsContainer.appendChild(statItem);
@@ -2439,13 +3682,13 @@ function renderCategoryStats() {
     // Grand total
     const totalHours = Math.floor(grandTotal / 60);
     const totalMins = grandTotal % 60;
-    const totalStr = totalHours > 0 ? `${totalHours}:${totalMins.toString().padStart(2, '0')} ساعت` : `${totalMins} دقیقه`;
+    const totalStr = totalHours > 0 ? `${totalHours}:${totalMins.toString().padStart(2, '0')} ${t('hours')}` : `${totalMins} ${t('minutes')}`;
     
     const totalItem = document.createElement('div');
     totalItem.className = 'stat-item';
     totalItem.style.gridColumn = 'span 2';
     totalItem.innerHTML = `
-        <div class="stat-label"><img src="./icons/clock.svg" class="icon" alt="clock"> مجموع کل</div>
+        <div class="stat-label"><img src="./icons/clock.svg" class="icon" alt="clock"> ${t('grandTotal')}</div>
         <div class="stat-value">${totalStr}</div>
     `;
     statsContainer.appendChild(totalItem);
@@ -2793,6 +4036,7 @@ function updateWizardStepperUI() {
     
     if (prevBtn) {
         prevBtn.style.display = currentWizardStep > 1 ? 'inline-flex' : 'none';
+        prevBtn.innerHTML = `➔ ${t('prevStep')}`;
     }
     
     if (nextBtn) {
@@ -2801,21 +4045,29 @@ function updateWizardStepperUI() {
         } else {
             nextBtn.style.display = 'inline-flex';
             if (currentWizardStep === 3) {
-                nextBtn.innerHTML = '<img src="./icons/magic_filled.svg" class="icon-header" alt="magic"> تولید و تحلیل برنامه ➔';
+                nextBtn.innerHTML = `<img src="./icons/magic_filled.svg" class="icon-header" alt="magic"> ${t('generateSchedule')}`;
             } else {
-                nextBtn.innerHTML = 'مرحله بعد ➔';
+                nextBtn.innerHTML = t('nextStep');
             }
         }
     }
     
     if (applyBtn) {
         applyBtn.style.display = currentWizardStep === 4 ? 'inline-flex' : 'none';
+        applyBtn.innerHTML = `<img src="./icons/save.svg" class="icon" alt="apply"> ${t('applySchedule')}`;
     }
     
-    // Slide transition in RTL
+    // Slide transition in RTL vs LTR
     const track = document.getElementById('wizardSliderTrack');
     if (track) {
-        track.style.marginRight = `-${(currentWizardStep - 1) * 100}%`;
+        const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
+        if (isRtl) {
+            track.style.marginLeft = '0';
+            track.style.marginRight = `-${(currentWizardStep - 1) * 100}%`;
+        } else {
+            track.style.marginRight = '0';
+            track.style.marginLeft = `-${(currentWizardStep - 1) * 100}%`;
+        }
     }
 }
 
@@ -2906,8 +4158,9 @@ function renderFixedItemsList() {
                 </div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
-                <span style="font-size:0.75rem; color:${isLocked ? '#2563eb' : '#64748b'}; font-weight:${isLocked ? '700' : 'normal'};">
-                    ${isLocked ? '🔒 قفل شده' : '🔓 آزاد'}
+                <span class="fixed-status-label" style="display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; color:${isLocked ? '#2563eb' : '#64748b'}; font-weight:${isLocked ? '700' : 'normal'};">
+                    <img src="${isLocked ? './icons/lock.svg' : './icons/unlock.svg'}" class="icon" alt="${isLocked ? 'lock' : 'unlock'}">
+                    <span>${isLocked ? (currentLang === 'en' ? 'Locked' : 'قفل شده') : (currentLang === 'en' ? 'Free' : 'آزاد')}</span>
                 </span>
                 <label class="toggle-switch">
                     <input type="checkbox" ${isLocked ? 'checked' : ''} data-index="${i}">
@@ -2919,11 +4172,15 @@ function renderFixedItemsList() {
         card.querySelector('input[type="checkbox"]').addEventListener('change', function() {
             autoScheduleFixedFlags[i] = this.checked;
             card.classList.toggle('is-locked', this.checked);
-            const labelText = card.querySelector('span[style*="font-size:0.75rem"]');
-            if (labelText) {
-                labelText.textContent = this.checked ? '🔒 قفل شده' : '🔓 آزاد';
-                labelText.style.color = this.checked ? '#2563eb' : '#64748b';
-                labelText.style.fontWeight = this.checked ? '700' : 'normal';
+            const labelEl = card.querySelector('.fixed-status-label');
+            if (labelEl) {
+                const isChk = this.checked;
+                labelEl.innerHTML = `
+                    <img src="${isChk ? './icons/lock.svg' : './icons/unlock.svg'}" class="icon" alt="${isChk ? 'lock' : 'unlock'}">
+                    <span>${isChk ? (currentLang === 'en' ? 'Locked' : 'قفل شده') : (currentLang === 'en' ? 'Free' : 'آزاد')}</span>
+                `;
+                labelEl.style.color = isChk ? '#2563eb' : '#64748b';
+                labelEl.style.fontWeight = isChk ? '700' : 'normal';
             }
         });
         
@@ -2938,67 +4195,77 @@ function addFlexibleItem() {
     flexibleItemsCounter++;
     const itemId = `flex-card-${flexibleItemsCounter}`;
     
+    const isEn = currentLang === 'en';
+    const catOptions = Object.entries(categoryNames).map(([k, v]) => 
+        `<option value="${k}" ${k === 'plus' ? 'selected' : ''}>${v}</option>`
+    ).join('');
+
+    const dayOptions = `<option value="0">${isEn ? 'Day: Any day' : 'روز: هر روزی'}</option>` +
+        days.map((d, idx) => `<option value="${idx + 1}">${d}</option>`).join('');
+
+    const prioOptions = isEn ? `
+        <option value="high">Priority: High ⭐</option>
+        <option value="medium" selected>Priority: Normal</option>
+        <option value="low">Priority: Low</option>
+    ` : `
+        <option value="high">اولویت: ضروری ⭐</option>
+        <option value="medium" selected>اولویت: معمولی</option>
+        <option value="low">اولویت: دلخواه</option>
+    `;
+
+    const windowOptions = isEn ? `
+        <option value="any">Window: Any time</option>
+        <option value="morning">Morning (8 - 12)</option>
+        <option value="afternoon">Afternoon (12 - 17)</option>
+        <option value="evening">Evening & Night (17 - 22)</option>
+    ` : `
+        <option value="any">بازه: هر ساعتی</option>
+        <option value="morning">بازه: صبح (۸ تا ۱۲)</option>
+        <option value="afternoon">بازه: بعدازظهر (۱۲ تا ۱۷)</option>
+        <option value="evening">بازه: عصر و شب (۱۷ تا ۲۲)</option>
+    `;
+
     const card = document.createElement('div');
     card.className = 'flex-card';
     card.id = itemId;
     card.innerHTML = `
-        <div class="flex-card-row">
-            <input type="text" placeholder="عنوان فعالیت (مثلاً مطالعه ریاضی، ورزش، ...)" class="flex-name-input" autofocus>
-            
-            <select class="flex-select flex-category">
-                <option value="uni">دانشگاهی</option>
-                <option value="plus" selected>درس پلاس</option>
-                <option value="nonuni">غیر دانشگاهی</option>
-                <option value="sport">ورزش</option>
-                <option value="book">کتاب</option>
-                <option value="work">کار</option>
-                <option value="movie">فیلم و تفریح</option>
-                <option value="other">غیره</option>
-            </select>
-            
-            <button type="button" class="btn-card-delete" onclick="removeFlexibleItem('${itemId}')" title="حذف این آیتم">
+        <div class="flex-header-row">
+            <input type="text" placeholder="${isEn ? 'Activity title (e.g. Study Math, Workout, ...)' : 'عنوان فعالیت (مثلاً مطالعه ریاضی، ورزش، ...)'}" class="flex-name-input" autofocus>
+            <button type="button" class="flex-btn-delete" onclick="removeFlexibleItem('${itemId}')" title="${isEn ? 'Delete item' : 'حذف این فعالیت'}">
                 <img src="./icons/delete.svg" class="icon" alt="delete" style="filter:invert(23%) sepia(85%) saturate(3000%) hue-rotate(345deg);">
             </button>
         </div>
         
-        <div class="flex-card-row" style="flex-wrap:wrap; gap:8px;">
-            <div style="display:flex; align-items:center; gap:6px;">
-                <span style="font-size:0.75rem; color:#475569; font-weight:600;">مدت:</span>
-                <input type="number" class="flex-duration-input" value="90" min="15" max="360" step="15" style="width:70px; padding:4px 6px; border:1px solid #cbd5e1; border-radius:6px; font-family:inherit; font-size:0.8rem;">
-                <span style="font-size:0.72rem; color:#64748b;">دقیقه</span>
+        <div class="flex-controls-grid">
+            <select class="flex-select flex-category" title="${isEn ? 'Category' : 'دسته‌بندی'}">
+                ${catOptions}
+            </select>
+            
+            <select class="flex-select flex-preferred-day" title="${isEn ? 'Preferred Day' : 'روز ترجیحی'}">
+                ${dayOptions}
+            </select>
+            
+            <select class="flex-select flex-priority" title="${isEn ? 'Priority' : 'اولویت انجام'}">
+                ${prioOptions}
+            </select>
+            
+            <select class="flex-select flex-time-window" title="${isEn ? 'Time Window' : 'ترجیح بازه زمانی'}">
+                ${windowOptions}
+            </select>
+        </div>
+        
+        <div class="flex-duration-bar">
+            <div class="flex-duration-input-wrap">
+                <span style="font-size:0.78rem; font-weight:700; color:var(--text-main);">${isEn ? 'Duration:' : 'مدت زمان:'}</span>
+                <input type="number" class="flex-duration-input" value="90" min="15" max="360" step="15">
+                <span style="font-size:0.75rem; color:var(--text-muted);">${isEn ? 'mins' : 'دقیقه'}</span>
             </div>
             
             <div class="duration-chips">
-                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 45)">۴۵د</span>
-                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 60)">۱ ساعت</span>
-                <span class="duration-chip selected" onclick="setFlexDuration('${itemId}', 90)">۱.۵ ساعت</span>
-                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 120)">۲ ساعت</span>
-            </div>
-            
-            <div style="display:flex; gap:6px; margin-right:auto; align-items:center;">
-                <select class="flex-select flex-priority" title="اولویت انجام">
-                    <option value="high">اولویت: ضروری ⭐</option>
-                    <option value="medium" selected>اولویت: معمولی</option>
-                    <option value="low">اولویت: دلخواه</option>
-                </select>
-                
-                <select class="flex-select flex-time-window" title="ترجیح بازه زمانی">
-                    <option value="any">بازه: هر ساعتی</option>
-                    <option value="morning">بازه: صبح (۸ تا ۱۲)</option>
-                    <option value="afternoon">بازه: بعدازظهر (۱۲ تا ۱۷)</option>
-                    <option value="evening">بازه: عصر و شب (۱۷ تا ۲۲)</option>
-                </select>
-                
-                <select class="flex-select flex-preferred-day" title="روز ترجیحی">
-                    <option value="0">روز: هر روزی</option>
-                    <option value="1">شنبه</option>
-                    <option value="2">یکشنبه</option>
-                    <option value="3">دوشنبه</option>
-                    <option value="4">سه‌شنبه</option>
-                    <option value="5">چهارشنبه</option>
-                    <option value="6">پنج‌شنبه</option>
-                    <option value="7">جمعه</option>
-                </select>
+                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 45)">${isEn ? '45m' : '۴۵د'}</span>
+                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 60)">${isEn ? '1 hour' : '۱ ساعت'}</span>
+                <span class="duration-chip selected" onclick="setFlexDuration('${itemId}', 90)">${isEn ? '1.5 hours' : '۱.۵ ساعت'}</span>
+                <span class="duration-chip" onclick="setFlexDuration('${itemId}', 120)">${isEn ? '2 hours' : '۲ ساعت'}</span>
             </div>
         </div>
     `;
@@ -3201,110 +4468,134 @@ function runSchedulingAlgorithm(fixedItems, flexibleItems, constraints) {
             });
         }
         
-        // Put preferred day at top if chosen
-        if (item.preferredDay > 0) {
-            const pDayIdx = item.preferredDay - 1;
-            dayCandidates = [pDayIdx, ...dayCandidates.filter(d => d !== pDayIdx)];
-        }
-        
-        // Search through candidate days
-        for (const day of dayCandidates) {
-            // Check daily cap limit
-            if (dayLoads[day] + durationSlots > maxSlotsPerDay) {
-                continue;
+        // Helper function to search slots on a given list of days
+        function findBestSlotOnDays(daysList, isFallback) {
+            let localBestDay = -1;
+            let localBestSlot = -1;
+            let localBestScore = -Infinity;
+            let localBestDiag = [];
+            
+            for (const day of daysList) {
+                // Check daily cap limit
+                if (dayLoads[day] + durationSlots > maxSlotsPerDay) {
+                    continue;
+                }
+                
+                // Search all valid start slots within allowed daily hours
+                for (let startSlot = minStartSlot; startSlot + durationSlots <= maxEndSlot; startSlot++) {
+                    let canPlace = true;
+                    let lunchConflict = false;
+                    
+                    // Check if duration slots and buffer slots are free
+                    for (let s = startSlot; s < startSlot + totalSlotsNeeded; s++) {
+                        if (s >= 72) {
+                            canPlace = false;
+                            break;
+                        }
+                        if (weekGrid[day][s] === 1 || weekGrid[day][s] === 2) {
+                            canPlace = false;
+                            break;
+                        }
+                        if (weekGrid[day][s] === 3) {
+                            lunchConflict = true;
+                        }
+                    }
+                    
+                    if (canPlace) {
+                        let score = 100;
+                        const diag = [];
+                        
+                        // Preferred Day Match or Fallback
+                        if (item.preferredDay > 0 && day === item.preferredDay - 1) {
+                            score += 60;
+                            diag.push(t('preferredDayHonored'));
+                        } else if (item.preferredDay > 0 && isFallback) {
+                            diag.push(t('preferredDayFull'));
+                        }
+                        
+                        // Preferred Time Window Match
+                        if (item.timeWindow === 'morning') {
+                            if (startSlot >= 4 && startSlot < 24) {
+                                score += 30;
+                                diag.push(currentLang === 'en' ? 'Morning shift' : 'شیفت صبح لحاظ شد');
+                            } else {
+                                score -= 20;
+                            }
+                        } else if (item.timeWindow === 'afternoon') {
+                            if (startSlot >= 24 && startSlot < 44) {
+                                score += 30;
+                                diag.push(currentLang === 'en' ? 'Afternoon shift' : 'شیفت بعدازظهر لحاظ شد');
+                            } else {
+                                score -= 20;
+                            }
+                        } else if (item.timeWindow === 'evening') {
+                            if (startSlot >= 44 && startSlot < 64) {
+                                score += 30;
+                                diag.push(currentLang === 'en' ? 'Evening shift' : 'شیفت عصر و شب لحاظ شد');
+                            } else {
+                                score -= 20;
+                            }
+                        }
+                        
+                        // Strategy Scoring
+                        if (constraints.strategy === 'morning') {
+                            score += Math.max(0, (40 - startSlot));
+                        } else if (constraints.strategy === 'afternoon') {
+                            if (startSlot >= 28) score += 25;
+                        } else if (constraints.strategy === 'balanced') {
+                            score -= (dayLoads[day] * 3);
+                        } else if (constraints.strategy === 'compact') {
+                            if (dayLoads[day] > 0) score += 20;
+                        }
+                        
+                        // Lunch conflict penalty
+                        if (lunchConflict) {
+                            score -= 50;
+                        }
+                        
+                        // Adjacency reward
+                        if (startSlot > 0 && (weekGrid[day][startSlot - 1] === 1 || weekGrid[day][startSlot - 1] === 2)) {
+                            score += 15;
+                        }
+                        
+                        if (score > localBestScore) {
+                            localBestScore = score;
+                            localBestDay = day;
+                            localBestSlot = startSlot;
+                            localBestDiag = diag;
+                        }
+                    }
+                }
             }
             
-            // Search all valid start slots within allowed daily hours
-            for (let startSlot = minStartSlot; startSlot + durationSlots <= maxEndSlot; startSlot++) {
-                let canPlace = true;
-                let lunchConflict = false;
-                
-                // Check if duration slots and buffer slots are free
-                for (let s = startSlot; s < startSlot + totalSlotsNeeded; s++) {
-                    if (s >= 72) {
-                        canPlace = false;
-                        break;
-                    }
-                    if (weekGrid[day][s] === 1 || weekGrid[day][s] === 2) {
-                        canPlace = false;
-                        break;
-                    }
-                    if (weekGrid[day][s] === 3) {
-                        lunchConflict = true;
-                    }
-                }
-                
-                if (canPlace) {
-                    // Multi-objective Evaluation Score (higher is better)
-                    let score = 100;
-                    const diag = [];
-                    
-                    // 1. Preferred Day Match (+40)
-                    if (item.preferredDay > 0 && day === item.preferredDay - 1) {
-                        score += 40;
-                        diag.push('روز ترجیحی رعایت شد');
-                    }
-                    
-                    // 2. Preferred Time Window Match (+30)
-                    // Morning: slots 4..24 (07:00 - 12:00)
-                    // Afternoon: slots 24..44 (12:00 - 17:00)
-                    // Evening: slots 44..64 (17:00 - 22:00)
-                    if (item.timeWindow === 'morning') {
-                        if (startSlot >= 4 && startSlot < 24) {
-                            score += 30;
-                            diag.push('شیفت صبح لحاظ شد');
-                        } else {
-                            score -= 20;
-                        }
-                    } else if (item.timeWindow === 'afternoon') {
-                        if (startSlot >= 24 && startSlot < 44) {
-                            score += 30;
-                            diag.push('شیفت بعدازظهر لحاظ شد');
-                        } else {
-                            score -= 20;
-                        }
-                    } else if (item.timeWindow === 'evening') {
-                        if (startSlot >= 44 && startSlot < 64) {
-                            score += 30;
-                            diag.push('شیفت عصر و شب لحاظ شد');
-                        } else {
-                            score -= 20;
-                        }
-                    }
-                    
-                    // 3. Strategy Scoring
-                    if (constraints.strategy === 'morning') {
-                        // Bonus for earlier start
-                        score += Math.max(0, (40 - startSlot));
-                    } else if (constraints.strategy === 'afternoon') {
-                        // Bonus for slots after slot 28 (13:00)
-                        if (startSlot >= 28) score += 25;
-                    } else if (constraints.strategy === 'balanced') {
-                        // Penalize day load
-                        score -= (dayLoads[day] * 3);
-                    } else if (constraints.strategy === 'compact') {
-                        // Reward days that are already working
-                        if (dayLoads[day] > 0) score += 20;
-                    }
-                    
-                    // 4. Lunch conflict penalty
-                    if (lunchConflict) {
-                        score -= 50;
-                    }
-                    
-                    // 5. Adjacency reward (clean schedules without tiny fragmented gaps)
-                    if (startSlot > 0 && (weekGrid[day][startSlot - 1] === 1 || weekGrid[day][startSlot - 1] === 2)) {
-                        score += 15;
-                    }
-                    
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestDay = day;
-                        bestSlot = startSlot;
-                        bestDiagnostics = diag;
-                    }
-                }
+            return { day: localBestDay, slot: localBestSlot, score: localBestScore, diag: localBestDiag };
+        }
+        
+        // STRICT PREFERRED DAY LOGIC:
+        // If user specified a preferred day, evaluate ONLY that day first.
+        // Only if it doesn't fit on the preferred day, evaluate other days as fallback.
+        if (item.preferredDay > 0) {
+            const pDayIdx = item.preferredDay - 1;
+            const prefRes = findBestSlotOnDays([pDayIdx], false);
+            if (prefRes.day !== -1) {
+                bestDay = prefRes.day;
+                bestSlot = prefRes.slot;
+                bestScore = prefRes.score;
+                bestDiagnostics = prefRes.diag;
+            } else {
+                const otherDays = dayCandidates.filter(d => d !== pDayIdx);
+                const fallbackRes = findBestSlotOnDays(otherDays, true);
+                bestDay = fallbackRes.day;
+                bestSlot = fallbackRes.slot;
+                bestScore = fallbackRes.score;
+                bestDiagnostics = fallbackRes.diag;
             }
+        } else {
+            const normalRes = findBestSlotOnDays(dayCandidates, false);
+            bestDay = normalRes.day;
+            bestSlot = normalRes.slot;
+            bestScore = normalRes.score;
+            bestDiagnostics = normalRes.diag;
         }
         
         // Place item if valid slot found
@@ -3364,6 +4655,7 @@ function displaySuggestions(schedule) {
     if (!container) return;
     container.innerHTML = '';
     
+    const isEn = currentLang === 'en';
     const suggestedItems = schedule.filter(s => s._isSuggested && !s._failed);
     const failedItems = schedule.filter(s => s._failed);
     const totalItems = suggestedItems.length + failedItems.length;
@@ -3375,14 +4667,16 @@ function displaySuggestions(schedule) {
     }
     
     const scoreCircle = document.getElementById('scorePercent');
-    if (scoreCircle) scoreCircle.textContent = `${score}٪`;
+    if (scoreCircle) scoreCircle.textContent = `${score}%`;
     
     const titleEl = document.getElementById('scoreSummaryTitle');
     if (titleEl) {
         if (failedItems.length === 0) {
-            titleEl.textContent = 'چیدمان بهینه، متعادل و بدون تداخل زمانی ✅';
+            titleEl.textContent = isEn ? '✨ Optimal, balanced schedule without any time conflicts' : '✨ چیدمان بهینه، متعادل و بدون تداخل زمانی';
         } else {
-            titleEl.textContent = `${suggestedItems.length} از ${totalItems} فعالیت با موفقیت جایابی شدند ⚠️`;
+            titleEl.textContent = isEn 
+                ? `⚠️ ${suggestedItems.length} of ${totalItems} activities successfully scheduled` 
+                : `⚠️ ${suggestedItems.length} از ${totalItems} فعالیت با موفقیت جایابی شدند`;
         }
     }
     
@@ -3397,67 +4691,138 @@ function displaySuggestions(schedule) {
         });
         const addedHours = (totalMinutesAdded / 60).toFixed(1);
         
+        const stratMapFa = {
+            balanced: 'توزیع متوازن',
+            compact: 'فشرده‌سازی',
+            morning: 'اولویت صبح',
+            afternoon: 'اولویت عصر'
+        };
+        const stratMapEn = {
+            balanced: 'Balanced Distribution',
+            compact: 'Compaction',
+            morning: 'Morning Priority',
+            afternoon: 'Afternoon Priority'
+        };
+        const stratName = (isEn ? stratMapEn : stratMapFa)[selectedStrategy] || selectedStrategy;
+        
         chipsEl.innerHTML = `
-            <span class="score-chip">تعداد افزوده شده: ${suggestedItems.length}</span>
-            <span class="score-chip">مجموع زمان: ${addedHours} ساعت</span>
-            <span class="score-chip">استراتژی: ${
-                selectedStrategy === 'balanced' ? 'توزیع متوازن' :
-                selectedStrategy === 'compact' ? 'فشرده‌سازی' :
-                selectedStrategy === 'morning' ? 'اولویت صبح' : 'اولویت عصر'
-            }</span>
-            <span class="score-chip">تداخل: صفر</span>
+            <span class="score-pro-chip">📋 ${isEn ? 'Added' : 'تعداد افزوده شده'}: ${suggestedItems.length}</span>
+            <span class="score-pro-chip">⏱️ ${isEn ? 'Total time' : 'مجموع زمان'}: ${addedHours} ${t('hours')}</span>
+            <span class="score-pro-chip">⚖️ ${isEn ? 'Strategy' : 'استراتژی'}: ${stratName}</span>
+            <span class="score-pro-chip">🛡️ ${isEn ? 'Conflicts: 0' : 'تداخل زمانی: صفر'}</span>
         `;
     }
     
-    // Placed items list
+    // Placed items list - Colorful Row Cards
     if (suggestedItems.length > 0) {
+        const isRtl = document.documentElement.getAttribute('dir') !== 'ltr';
+        const listWrapper = document.createElement('div');
+        listWrapper.className = 'suggestions-list-pro';
+        
         suggestedItems.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'suggested-card';
-            card.style.borderRightColor = categoryColors[item.category] || '#2563eb';
+            card.className = 'suggested-row-card';
             
-            const badgesHtml = (item.diagnostics || []).map(d => `<span class="badge-tag badge-tag-success">${escapeHtml(d)}</span>`).join('');
+            const catColor = categoryColors[item.category] || '#2563eb';
+            const [sh, sm] = item.sTime.split(':').map(Number);
+            const [eh, em] = item.eTime.split(':').map(Number);
+            const dur = (eh * 60 + em) - (sh * 60 + sm);
+            const durHours = (dur / 60).toFixed(dur % 60 === 0 ? 0 : 1);
+            
+            // Set dynamic colorful border & pastel background
+            card.style.borderColor = `${catColor}40`;
+            card.style.background = `linear-gradient(135deg, ${catColor}10, ${catColor}22)`;
+            if (isRtl) {
+                card.style.borderRight = `6px solid ${catColor}`;
+            } else {
+                card.style.borderLeft = `6px solid ${catColor}`;
+            }
+            
+            // Build diagnostic pills
+            let diagHtml = '';
+            if (item.diagnostics && item.diagnostics.length > 0) {
+                const pills = item.diagnostics.map(d => {
+                    let pillClass = 'diag-pill-normal';
+                    if (d.includes('ترجیحی') || d.includes('Preferred')) {
+                        pillClass = d.includes('پر بودن') || d.includes('full') ? 'diag-pill-warning' : 'diag-pill-preferred';
+                    } else if (d.includes('صبح') || d.includes('بعدازظهر') || d.includes('عصر') || d.includes('shift')) {
+                        pillClass = 'diag-pill-shift';
+                    }
+                    return `<span class="diag-pill ${pillClass}">📌 ${escapeHtml(d)}</span>`;
+                }).join('');
+                diagHtml = `<div class="suggested-diag-row">${pills}</div>`;
+            }
             
             card.innerHTML = `
-                <div>
-                    <div style="font-weight:700; font-size:0.9rem; color:#1e293b;">${escapeHtml(item.name)}</div>
-                    <div class="suggested-card-badges">
-                        <span class="badge-tag">📅 ${days[item.day - 1]}</span>
-                        <span class="badge-tag">⏰ ${item.sTime} تا ${item.eTime}</span>
-                        <span class="badge-tag">${categoryNames[item.category] || 'غیره'}</span>
-                        ${badgesHtml}
+                <div class="suggested-card-top">
+                    <div class="suggested-title-group">
+                        <span class="suggested-cat-pill" style="background:${catColor}; color:#ffffff;">
+                            ${categoryNames[item.category] || ''}
+                        </span>
+                        <div class="suggested-activity-title">${escapeHtml(item.name)}</div>
+                    </div>
+                    <div class="suggested-ready-badge">
+                        <img src="./icons/check.svg" class="icon" alt="ready" style="width:14px; height:14px;">
+                        <span>${isEn ? 'Ready to Apply' : 'آماده اعمال'}</span>
                     </div>
                 </div>
-                <div style="font-size:0.8rem; font-weight:700; color:#059669; background:#dcfce7; padding:4px 10px; border-radius:8px;">
-                    آماده اعمال
+                
+                <div class="suggested-details-row">
+                    <span class="detail-tag">
+                        <img src="./icons/calendar.svg" class="icon" alt="day">
+                        <b>${days[item.day - 1]}</b>
+                    </span>
+                    <span class="detail-tag">
+                        <img src="./icons/clock.svg" class="icon" alt="clock">
+                        <b>${item.sTime} ${t('to')} ${item.eTime}</b>
+                    </span>
+                    <span class="detail-tag">
+                        <span>⏱️ ${dur} ${t('minutes')} (${durHours} ${t('hours')})</span>
+                    </span>
                 </div>
+                
+                ${diagHtml}
             `;
-            container.appendChild(card);
+            
+            listWrapper.appendChild(card);
         });
+        
+        container.appendChild(listWrapper);
     }
     
     // Failed items
     if (failedItems.length > 0) {
         const failedHeader = document.createElement('div');
-        failedHeader.style.cssText = 'color:#dc2626; font-weight:700; font-size:0.88rem; margin:16px 0 8px 0;';
-        failedHeader.innerHTML = '⚠️ آیتم‌های جاگذاری نشده (نیاز به بازنگری در شروط):';
+        failedHeader.style.cssText = 'color:#dc2626; font-weight:700; font-size:0.92rem; margin:20px 0 10px 0; display:flex; align-items:center; gap:6px;';
+        failedHeader.innerHTML = isEn 
+            ? '⚠️ Unplaced items (review your constraints):' 
+            : '⚠️ فعالیت‌های جاگذاری‌نشده (نیاز به بازنگری در شروط):';
         container.appendChild(failedHeader);
         
         failedItems.forEach(item => {
             const card = document.createElement('div');
-            card.className = 'suggested-card';
-            card.style.borderRightColor = '#ef4444';
+            card.className = 'suggested-row-card';
+            card.style.borderColor = '#fca5a5';
             card.style.background = '#fef2f2';
+            card.style.borderInlineStart = '6px solid #ef4444';
+            
             card.innerHTML = `
-                <div>
-                    <div style="font-weight:700; font-size:0.9rem; color:#991b1b;">${escapeHtml(item.name)}</div>
-                    <div style="font-size:0.78rem; color:#b91c1c; margin-top:3px;">
-                        علت: ${escapeHtml(item.failureReason || 'فضای خالی در بازه زمانی مجاز یافت نشد')}
+                <div class="suggested-card-top">
+                    <div class="suggested-title-group">
+                        <span class="suggested-cat-pill" style="background:#ef4444; color:#ffffff;">
+                            ${categoryNames[item.category] || ''}
+                        </span>
+                        <div class="suggested-activity-title" style="color:#991b1b;">${escapeHtml(item.name)}</div>
                     </div>
+                    <button type="button" class="btn-mini" style="background:#fee2e2; border-color:#fca5a5; color:#b91c1c; padding:6px 14px; border-radius:8px;" onclick="goToWizardStep(3)">
+                        ${isEn ? 'Reconfigure Rules' : 'تنظیم مجدد شروط (مرحله ۳)'}
+                    </button>
                 </div>
-                <button type="button" class="btn-mini" style="background:#fee2e2; border-color:#fca5a5; color:#b91c1c;" onclick="goToWizardStep(3)">
-                    تنظیم مجدد شروط
-                </button>
+                
+                <div style="font-size:0.82rem; color:#b91c1c; margin-top:4px; display:flex; align-items:center; gap:6px;">
+                    <span>⚠️</span>
+                    <span><b>${isEn ? 'Reason' : 'علت عدم قرارگیری'}:</b> ${escapeHtml(item.failureReason || (isEn ? 'No available slot within time boundaries' : 'فضای خالی در بازه زمانی مجاز با توجه به سقف ساعت روزانه یافت نشد'))}</span>
+                </div>
             `;
             container.appendChild(card);
         });
@@ -3727,22 +5092,7 @@ function exportJSON() {
 }
 
 // ==========================================
-// UI TOGGLE
-// ==========================================
-function toggleSidebar() {
-    const mainLayout = document.getElementById('mainLayout');
-    const sidebar = document.getElementById('sidebar');
-    
-    if (window.innerWidth <= 768) {
-        sidebar.classList.toggle('mobile-visible');
-    } else {
-        mainLayout.classList.toggle('full');
-        sidebar.classList.toggle('hidden');
-    }
-}
-
-// ==========================================
-// KEYBOARD SHORTCUTS
+// KEYBOARD SHORTCUTS & OVERLAYS
 // ==========================================
 function setupKeyboardShortcuts() {
     document.addEventListener('keydown', function(e) {
@@ -3757,6 +5107,7 @@ function setupKeyboardShortcuts() {
             if (autoScheduleModal && autoScheduleModal.style.display === 'flex') closeAutoScheduleModal();
             if (confirmModal && confirmModal.style.display === 'flex') closeConfirm();
             if (scheduleModal && scheduleModal.style.display === 'flex') closeScheduleModal();
+            closeMobileScheduleSheet();
         }
         
         // Ctrl+S - Save
@@ -3795,11 +5146,9 @@ document.addEventListener('click', function(e) {
 // ==========================================
 // INITIALIZATION LOG
 // ==========================================
-console.log('🚀 دروس پلاس وب - نسخه حرفه‌ای');
-console.log('✅ Drag & Drop بهینه‌سازی شده');
-console.log('✅ Toast notifications فعال');
-console.log('✅ الگوریتم برنامه‌ریزی هوشمند آماده');
-console.log('💡 میانبرها: Ctrl+S ذخیره | Ctrl+N آیتم جدید | Ctrl+M برنامه‌ریزی هوشمند | Esc بستن');
+console.log('🚀 Timetable Web App');
+console.log('✅ Drag & Drop ready');
+console.log('✅ Smart Scheduler active');
 </script>
 
 </body>
